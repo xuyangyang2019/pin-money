@@ -7,12 +7,17 @@ Component({
       pagePath: "/pages/index/index",
       iconPath: "/images/icon_component.png",
       selectedIconPath: "/images/icon_component_HL.png",
-      text: "组件"
+      text: "今日任务"
     }, {
       pagePath: "/pages/index/index2",
       iconPath: "/images/icon_API.png",
       selectedIconPath: "/images/icon_API_HL.png",
-      text: "接口"
+      text: "添加任务"
+    }, {
+      pagePath: "/pages/index/index2",
+      iconPath: "/images/icon_API.png",
+      selectedIconPath: "/images/icon_API_HL.png",
+      text: "数据统计"
     }]
   },
   attached() {
