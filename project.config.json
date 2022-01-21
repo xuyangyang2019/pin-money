@@ -35,6 +35,7 @@
     "appid": "wx2b5fb19e349e588c",
     "projectname": "pin-money",
     "libVersion": "2.2.5",
+    "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
     "condition": {
         "search": {
             "list": []
