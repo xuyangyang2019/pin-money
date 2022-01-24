@@ -10,7 +10,7 @@
         "autoAudits": false,
         "scopeDataCheck": false,
         "checkInvalidKey": true,
-        "checkSiteMap": true,
+        "checkSiteMap": false,
         "uploadWithSourceMap": true,
         "compileHotReLoad": false,
         "useMultiFrameRuntime": true,
