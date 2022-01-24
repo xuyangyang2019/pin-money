@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/index/index2",
+    "pages/index/index3",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
     "pages/databaseGuide/databaseGuide",
@@ -24,6 +25,12 @@
         },
         {
             "pagePath": "pages/index/index2",
+            "iconPath": "images/icon_API.png",
+            "selectedIconPath": "images/icon_API_HL.png",
+            "text": "接口"
+        },
+        {
+            "pagePath": "pages/index/index3",
             "iconPath": "images/icon_API.png",
             "selectedIconPath": "images/icon_API_HL.png",
             "text": "接口"

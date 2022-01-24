@@ -14,7 +14,7 @@ Component({
       selectedIconPath: "/images/icon_API_HL.png",
       text: "添加任务"
     }, {
-      pagePath: "/pages/index/index2",
+      pagePath: "/pages/index/index3",
       iconPath: "/images/icon_API.png",
       selectedIconPath: "/images/icon_API_HL.png",
       text: "数据统计"
@@ -26,6 +26,7 @@ Component({
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
+      console.log(url)
       wx.switchTab({url})
       this.setData({
         selected: data.index

@@ -1,4 +1,4 @@
-// pages/index3/index3.js
+// pages/index/index3.js
 Page({
 
   /**
@@ -70,7 +70,7 @@ Component({
       if (typeof this.getTabBar === 'function' &&
         this.getTabBar()) {
         this.getTabBar().setData({
-          selected: 1
+          selected: 2
         })
       }
     }
