@@ -11,7 +11,7 @@
     "pages/chooseLib/chooseLib"
   ],
   "tabBar": {
-    "custom": true,
+    "custom": false,
     "color": "#7A7E83",
     "selectedColor": "#3cc51f",
     "borderStyle": "black",

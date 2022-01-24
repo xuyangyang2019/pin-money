@@ -33,7 +33,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
@@ -71,15 +70,16 @@ Page({
     console.log('用户点击右上角分享')
   }
 })
-Component({
-  pageLifetimes: {
-    show() {
-      if (typeof this.getTabBar === 'function' &&
-        this.getTabBar()) {
-        this.getTabBar().setData({
-          selected: 1
-        })
-      }
-    }
-  }
-})
+
+// Component({ 
+//   pageLifetimes: { 
+//     show() { 
+//       if (typeof this.getTabBar === 'function' && 
+//         this.getTabBar()) { 
+//         this.getTabBar().setData({ 
+//           selected: 0 
+//         }) 
+//       } 
+//     } 
+//   } 
+// }) 

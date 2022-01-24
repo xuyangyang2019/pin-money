@@ -20,13 +20,15 @@ Component({
       text: "数据统计"
     }]
   },
-  attached() {
-  },
+  attached() {},
   methods: {
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
-      wx.switchTab({url})
+      console.log('switchTab', url)
+      wx.switchTab({
+        url
+      })
       this.setData({
         selected: data.index
       })

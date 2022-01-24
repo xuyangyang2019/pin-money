@@ -11,7 +11,7 @@ Page({
     requestResult: ''
   },
 
-  onLoad: function() {
+  onLoad: function () {
     if (!wx.cloud) {
       wx.redirectTo({
         url: '../chooseLib/chooseLib',
@@ -22,7 +22,6 @@ Page({
     // 获取用户信息
     wx.getSetting({
       success: res => {
-        console.log(res)
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
@@ -38,7 +37,19 @@ Page({
     })
   },
 
-  onGetUserInfo: function(e) {
+    /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    // if (typeof this.getTabBar === 'function' &&
+    //   this.getTabBar()) {
+    //   this.getTabBar().setData({
+    //     selected: 0
+    //   })
+    // }
+  },
+
+  onGetUserInfo: function (e) {
     if (!this.logged && e.detail.userInfo) {
       this.setData({
         logged: true,
@@ -48,7 +59,7 @@ Page({
     }
   },
 
-  onGetOpenid: function() {
+  onGetOpenid: function () {
     // 调用云函数
     wx.cloud.callFunction({
       name: 'login',
@@ -84,7 +95,7 @@ Page({
         })
 
         const filePath = res.tempFilePaths[0]
-        
+
         // 上传图片
         const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
         wx.cloud.uploadFile({
@@ -96,7 +107,7 @@ Page({
             app.globalData.fileID = res.fileID
             app.globalData.cloudPath = cloudPath
             app.globalData.imagePath = filePath
-            
+
             wx.navigateTo({
               url: '../storageConsole/storageConsole'
             })
@@ -118,17 +129,5 @@ Page({
         console.error(e)
       }
     })
-  }
-})
-Component({
-  pageLifetimes: {
-    show() {
-      if (typeof this.getTabBar === 'function' &&
-        this.getTabBar()) {
-        this.getTabBar().setData({
-          selected: 0
-        })
-      }
-    }
   }
 })
