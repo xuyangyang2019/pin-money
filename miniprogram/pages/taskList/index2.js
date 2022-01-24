@@ -1,3 +1,5 @@
+const app = getApp()
+
 // pages/index3/index3.js
 Page({
 
@@ -5,21 +7,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    step: 1,
+    openid: '',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if (app.globalData.openid) {
+      this.setData({
+        openid: app.globalData.openid
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    console.log('index2 加载完成')
   },
 
   /**
@@ -61,7 +68,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    console.log('用户点击右上角分享')
   }
 })
 Component({

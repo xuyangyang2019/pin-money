@@ -1,0 +1,24 @@
+<view class="task-list">
+  <text class="request-text">任务列表</text>
+  <text wx:if="{{openid}}" class="request-text">{{openid}}</text>
+  <text wx:else class="request-text">没有openid</text>
+
+  <view class="list">
+    <view class="list-item">
+      <text class="request-text" wx:for="{{7}}" style="color: {{step === index + 1 ? 'red': 'black'}}" wx:key="index">{{index + 1}}</text>
+    </view>
+    <view class="list-item" wx:if="{{openid}}">
+      <text class="request-text">openid：{{openid}}</text>
+    </view>
+    <view class="list-item" wx:if="{{counterId}}">
+      <text class="request-text">当前记录 ID：{{counterId}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 操作数据库 -->
+<view class="uploader">
+  <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
+    <text>添加任务</text>
+  </navigator>
+</view>

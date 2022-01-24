@@ -9,12 +9,12 @@ Component({
       selectedIconPath: "/images/icon_component_HL.png",
       text: "今日任务"
     }, {
-      pagePath: "/pages/index/index2",
+      pagePath: "/pages/taskList/index2",
       iconPath: "/images/icon_API.png",
       selectedIconPath: "/images/icon_API_HL.png",
       text: "任务管理"
     }, {
-      pagePath: "/pages/index/index3",
+      pagePath: "/pages/taskCount/index3",
       iconPath: "/images/icon_API.png",
       selectedIconPath: "/images/icon_API_HL.png",
       text: "数据统计"

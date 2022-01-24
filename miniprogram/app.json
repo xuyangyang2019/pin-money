@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/index2",
-    "pages/index/index3",
+    "pages/taskList/index2",
+    "pages/taskCount/index3",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
     "pages/databaseGuide/databaseGuide",
@@ -24,13 +24,13 @@
             "text": "组件"
         },
         {
-            "pagePath": "pages/index/index2",
+            "pagePath": "pages/taskList/index2",
             "iconPath": "images/icon_API.png",
             "selectedIconPath": "images/icon_API_HL.png",
             "text": "接口"
         },
         {
-            "pagePath": "pages/index/index3",
+            "pagePath": "pages/taskCount/index3",
             "iconPath": "images/icon_API.png",
             "selectedIconPath": "images/icon_API_HL.png",
             "text": "接口"
