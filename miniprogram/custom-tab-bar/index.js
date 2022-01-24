@@ -12,7 +12,7 @@ Component({
       pagePath: "/pages/index/index2",
       iconPath: "/images/icon_API.png",
       selectedIconPath: "/images/icon_API_HL.png",
-      text: "添加任务"
+      text: "任务管理"
     }, {
       pagePath: "/pages/index/index3",
       iconPath: "/images/icon_API.png",
