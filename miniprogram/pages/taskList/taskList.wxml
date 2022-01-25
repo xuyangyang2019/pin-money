@@ -1,22 +1,43 @@
 <view class="task-list">
-  <text class="request-text">任务列表</text>
 
-  <view class="list">
+  <!-- 操作 -->
+  <view class="task-list-title">
+    <text>任务列表</text>
+
+    <button style="margin-left:50rpx;margin-right: 0;" type="primary" size="mini">添 加</button>
+
+    <button style="margin-left:50rpx;margin-right: 0;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
+
+    <!-- <navigator style="margin: 0 5px;" url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
+      <text>添加任务</text>
+    </navigator> -->
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list-content">
+
+    <view class="list-title">
+      <view class="list-title-item">任务名称</view>
+      <view class="list-title-item">任务奖励</view>
+      <view class="list-title-item3">操作</view>
+    </view>
+
+    <scroll-view scroll-y="true" style="height: 300rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+      <view id="demo1" class="scroll-view-item demo-text-1"></view>
+      <view id="demo2" class="scroll-view-item demo-text-2"></view>
+      <view id="demo3" class="scroll-view-item demo-text-3"></view>
+    </scroll-view>
+  </view>
+
+
+
+  <view class="list-content">
     <view class="list-item">
-      <text class="request-text" wx:for="{{7}}" style="color: {{step === index + 1 ? 'red': 'black'}}" wx:key="index">{{index + 1}}</text>
-    </view>
-    <view class="list-item" wx:if="{{openid}}">
-      <text class="request-text">openid：{{openid}}</text>
-    </view>
-    <view class="list-item" wx:if="{{counterId}}">
-      <text class="request-text">当前记录 ID：{{counterId}}</text>
+      <text class="request-text" wx:for="{{taskList}}" wx:key="index">
+        {{index}}: {{item.name}}-{{item.price}}
+      </text>
     </view>
   </view>
-</view>
 
-<!-- 操作数据库 -->
-<view class="uploader">
-  <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
-    <text>添加任务</text>
-  </navigator>
+
 </view>
