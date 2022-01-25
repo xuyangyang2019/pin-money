@@ -3,7 +3,6 @@ const app = getApp()
 
 Page({
   data: {
-    demoData: '111',
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     logged: false,
@@ -67,7 +66,7 @@ Page({
       success: res => {
         console.log('[云函数] [login] user openid: ', res)
         // console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
+        app.globalData.openid = res.result.OPENID
         wx.navigateTo({
           url: '../userConsole/userConsole',
         })
