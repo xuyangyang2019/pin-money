@@ -34,13 +34,14 @@
 }
 
 .list-content {
-  display: flex;
+  /* display: flex; */
   overflow: auto;
   box-sizing: border-box;
   border: solid gray 1px;
   border-top: none;
 }
 
-.scroll-view-item {
-  height: 300px;
+.list-item {
+  display: flex;
+  /* height: 300px; */
 }

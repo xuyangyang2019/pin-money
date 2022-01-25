@@ -4,14 +4,14 @@
   <view class="task-list-title">
     <text>任务列表</text>
 
-    <button style="margin-left:50rpx;margin-right: 0;" type="primary" size="mini">添 加</button>
+    <button style="margin-left:50rpx;margin-right: 0;" type="primary" size="mini" bindtap="onAddTask">添 加</button>
+    <!-- <navigator style="margin: 0 5px;" url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
+      <text>添加任务</text>
+    </navigator> -->
 
     <button style="margin-left:50rpx;margin-right: 0;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
   </view>
 
-  <!-- <navigator style="margin: 0 5px;" url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
-      <text>添加任务</text>
-    </navigator> -->
 
   <!-- 任务列表 -->
   <view class="task-list-content">
@@ -25,20 +25,17 @@
     <!-- <view class="list-content"> -->
     <!-- style="height: 300rpx;" -->
     <scroll-view scroll-y="true" class="list-content" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-      <view id="demo1" class="scroll-view-item demo-text-1">1</view>
-      <view id="demo2" class="scroll-view-item demo-text-2">2</view>
-      <view id="demo3" class="scroll-view-item demo-text-3">3</view>
+      <view class="list-item" wx:for="{{taskList}}" wx:key="index">
+        <text>{{item.name}}</text>
+        <text>{{item.price}}</text>
+        <text>删除</text>
+      </view>
     </scroll-view>
   </view>
 
 
 
   <!-- <view class="list-content">
-    <view class="list-item">
-      <text class="request-text" wx:for="{{taskList}}" wx:key="index">
-        {{index}}: {{item.name}}-{{item.price}}
-      </text>
-    </view>
   </view> -->
 
 

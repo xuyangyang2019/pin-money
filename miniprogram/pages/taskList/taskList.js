@@ -1,22 +1,13 @@
 const app = getApp()
-const order = ['demo1', 'demo2', 'demo3']
 
-// pages/index3/index3.js
+// pages/taskList/taskList.js
 Page({
-
-  onShareAppMessage() {
-    return {
-      title: 'scroll-view',
-      path: 'page/component/pages/scroll-view/scroll-view'
-    }
-  },
   /**
    * 页面的初始数据
    */
   data: {
     openid: '',
     taskList: [],
-    toView: 'green'
   },
 
   /**
@@ -75,29 +66,50 @@ Page({
     console.log('用户点击右上角分享')
   },
 
-  onAdd: function () {
-    const db = wx.cloud.database()
-    db.collection('counters').add({
-      data: {
-        count: 1
-      },
-      success: res => {
-        // 在返回结果中会包含新创建的记录的 _id
-        this.setData({
-          counterId: res._id,
-          count: 1
-        })
-        wx.showToast({
-          title: '新增记录成功',
-        })
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '新增记录失败'
-        })
-        console.error('[数据库] [新增记录] 失败：', err)
+  onAddTask: () => {
+    console.log('onAddTask')
+    
+    wx.showModal({
+      title: '提示',
+      content: '',
+      placeholderText: '请输入任务名称',
+      editable: true,
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定', res.content)
+          const db = wx.cloud.database()
+          db.collection('task').add({
+            data: {
+              name: res.content,
+              price: 1
+            },
+            success: res => {
+              console.log(res)
+              console.log(this)
+              // 在返回结果中会包含新创建的记录的 _id
+              this.setData({
+                taskList: taskList.push({
+                  name: res.content,
+                  price: 1
+                }),
+              })
+              // wx.showToast({
+              //   title: '新增记录成功',
+              // })
+              // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+              // this.onQueryTask()
+            },
+            fail: err => {
+              wx.showToast({
+                icon: 'none',
+                title: '新增记录失败'
+              })
+              console.error('[数据库] [新增记录] 失败：', err)
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
       }
     })
   },
