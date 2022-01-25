@@ -1,7 +1,5 @@
 <view class="task-list">
   <text class="request-text">任务列表</text>
-  <text wx:if="{{openid}}" class="request-text">{{openid}}</text>
-  <text wx:else class="request-text">没有openid</text>
 
   <view class="list">
     <view class="list-item">

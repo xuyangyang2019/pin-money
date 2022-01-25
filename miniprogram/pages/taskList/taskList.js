@@ -15,6 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(app)
     if (app.globalData.openid) {
       this.setData({
         openid: app.globalData.openid
@@ -26,7 +27,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    console.log('index2 加载完成')
   },
 
   /**
