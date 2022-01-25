@@ -1,56 +1,46 @@
 .task-list {
   display: flex;
   flex-direction: column;
-  padding: 5rpx;
-  border: solid red 1px;
+  padding: 20rpx;
+  height: 100vh;
+  box-sizing: border-box;
   /* overflow: hidden; */
+  /* border: solid red 1px; */
 }
 
-.task-list-title{
+.task-list-title {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 10rpx 0;
-  /* border: solid red 1rpx; */
+  margin-bottom: 20rpx;
 }
 
-.task-list-content{
-  /* margin-top: 60rpx; */
+.task-list-content {
   flex: 1 1 auto;
-  border: solid red 1rpx;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* border: solid black 1rpx; */
 }
 
 .list-title {
   display: flex;
   border: solid gray 1rpx;
 }
-.list-title-item{
-  padding: 5px;
-  border-right: gray solid 1rpx;
-}
-.list-title-item3{
-  padding: 5px;
+
+.list-title-item {
+  padding:10rpx;
   border-right: gray solid 1rpx;
   flex: 1 1 auto;
 }
 
-/* .list-content {
+.list-content {
   display: flex;
-  padding: 5px;
-  border: solid red 1px;
-} */
-
-
-.scroll-view_H{
-  white-space: nowrap;
-}
-.scroll-view-item{
-  height: 300rpx;
-}
-.scroll-view-item_H{
-  display: inline-block;
-  width: 100%;
-  height: 300rpx;
+  overflow: auto;
+  box-sizing: border-box;
+  border: solid gray 1px;
+  border-top: none;
 }
 
-
+.scroll-view-item {
+  height: 300px;
+}
