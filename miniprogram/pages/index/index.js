@@ -3,6 +3,7 @@ const app = getApp()
 
 Page({
   data: {
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     logged: false,
@@ -18,13 +19,14 @@ Page({
       return
     }
 
-    // 获取用户信息
+    // 查看是否授权
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: res => {
+              // console.log(res.userInfo)
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
@@ -36,16 +38,22 @@ Page({
     })
   },
 
-    /**
+  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    // console.log('onShow', this.data)
     // if (typeof this.getTabBar === 'function' &&
     //   this.getTabBar()) {
     //   this.getTabBar().setData({
     //     selected: 0
     //   })
     // }
+    this.onGetOpenid()
+  },
+
+  bindGetUserInfo(e) {
+    console.log(e.detail.userInfo)
   },
 
   onGetUserInfo: function (e) {
@@ -64,12 +72,14 @@ Page({
       name: 'login',
       data: {},
       success: res => {
-        console.log('[云函数] [login] user openid: ', res)
-        // console.log('[云函数] [login] user openid: ', res.result.openid)
+        // console.log('[云函数] [login] user openid: ', res.result.OPENID)
         app.globalData.openid = res.result.OPENID
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
+        this.setData({
+          openid: res.result.OPENID
         })
+        // wx.navigateTo({
+        //   url: '../userConsole/userConsole',
+        // })
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)
