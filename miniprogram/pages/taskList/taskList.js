@@ -92,7 +92,7 @@ Page({
             _id: res._id,
             _openid: app.globalData.openid,
             name: this.data.taskName,
-            price: this.data.taskReward
+            reward: this.data.taskReward
           }]
           this.setData({
             taskList: oldData,
