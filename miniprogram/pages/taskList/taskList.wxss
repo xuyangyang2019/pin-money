@@ -8,6 +8,18 @@
   /* border: solid red 1px; */
 }
 
+.add-task-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.weui-input {
+  width: 100px;
+}
+
 .task-list-title {
   display: flex;
   align-items: center;
@@ -28,20 +40,14 @@
 }
 
 .list-title-item {
-  padding:10rpx;
+  padding: 10rpx;
   border-right: gray solid 1rpx;
   flex: 1 1 auto;
 }
 
 .list-content {
-  /* display: flex; */
   overflow: auto;
   box-sizing: border-box;
   border: solid gray 1px;
   border-top: none;
-}
-
-.list-item {
-  display: flex;
-  /* height: 300px; */
 }
