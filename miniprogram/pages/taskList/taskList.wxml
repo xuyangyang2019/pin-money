@@ -9,7 +9,7 @@
   <!-- 操作 -->
   <view class="task-list-title">
     <text>任务列表</text>
-    <button style="margin-left:50rpx;margin-right: 0;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
+    <button style="margin-left:50rpx;padding: 2rpx 20rpx;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
   </view>
 
   <!-- 任务列表 -->
@@ -24,10 +24,12 @@
     <!-- <view class="list-content"> -->
     <!-- style="height: 300rpx;" -->
     <scroll-view scroll-y="true" class="list-content" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-      <view class="list-title" wx:for="{{taskList}}" wx:key="index">
-        <text class="list-title-item">{{item.name}}</text>
-        <text class="list-title-item">{{item.reward}}</text>
-        <button type="warn" size="mini" data-task="{{item}}" bindtap="onRemove">删除</button>
+      <view class="itme-box" wx:for="{{taskList}}" wx:key="index">
+        <text class="list-item">{{item.name}}</text>
+        <text class="list-item">{{item.reward}}</text>
+        <view class="list-item operation-btn">
+          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemove">删除</button>
+        </view>
       </view>
     </scroll-view>
   </view>
