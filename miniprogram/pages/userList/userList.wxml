@@ -1,13 +1,13 @@
 <view class="task-list">
   <!-- 添加任务 -->
   <view class="add-task-box">
-    <input class="weui-input" name="{{taskName}}" value="{{taskName}}" placeholder=" 任务名称" bindinput="bindNameInput" />
+    <input class="weui-input" name="{{taskName}}" value="{{taskName}}" placeholder="用户名称" bindinput="bindNameInput" />
     <button style="margin-left:20rx" type="primary" size="mini" bindtap="onAddTask">添加</button>
   </view>
 
   <!-- 操作 -->
   <view class="task-list-title">
-    <text>任务列表</text>
+    <text>用户列表</text>
     <button style="margin-left:50rpx;padding: 2rpx 20rpx;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
   </view>
 
