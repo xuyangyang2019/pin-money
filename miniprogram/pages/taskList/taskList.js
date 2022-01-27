@@ -9,7 +9,9 @@ Page({
     openid: '',
     taskList: [],
     taskName: '',
-    taskReward: ''
+    taskReward: '',
+    toView: 'toView',
+    scrollTop: 'scrollTop'
   },
 
   /**
@@ -115,6 +117,7 @@ Page({
     } else {
       wx.showToast({
         title: '数据格式不正确，不能添加！',
+        icon: 'error'
       })
     }
     // wx.showModal({
@@ -206,63 +209,6 @@ Page({
         icon: 'none',
         console.error('[数据库] [更新记录] 失败：', err)
       }
-    })
-  },
-
-  onCounterDec: function () {
-    const db = wx.cloud.database()
-    const newCount = this.data.count - 1
-    db.collection('counters').doc(this.data.counterId).update({
-      data: {
-        count: newCount
-      },
-      success: res => {
-        this.setData({
-          count: newCount
-        })
-      },
-      fail: err => {
-        icon: 'none',
-        console.error('[数据库] [更新记录] 失败：', err)
-      }
-    })
-  },
-
-
-
-  upper(e) {
-    console.log(e)
-  },
-
-  lower(e) {
-    console.log(e)
-  },
-
-  scroll(e) {
-    console.log(e)
-  },
-
-  scrollToTop() {
-    this.setAction({
-      scrollTop: 0
-    })
-  },
-
-  tap() {
-    for (let i = 0; i < order.length; ++i) {
-      if (order[i] === this.data.toView) {
-        this.setData({
-          toView: order[i + 1],
-          scrollTop: (i + 1) * 200
-        })
-        break
-      }
-    }
-  },
-
-  tapMove() {
-    this.setData({
-      scrollTop: this.data.scrollTop + 10
     })
   }
 })

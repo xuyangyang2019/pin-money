@@ -21,9 +21,7 @@
       <view class="list-title-item">操作</view>
     </view>
 
-    <!-- <view class="list-content"> -->
-    <!-- style="height: 300rpx;" -->
-    <scroll-view scroll-y="true" class="list-content" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <scroll-view scroll-y="true" class="list-content">
       <view class="itme-box" wx:for="{{taskList}}" wx:key="index">
         <text class="list-item">{{item.name}}</text>
         <text class="list-item">{{item.reward}}</text>
