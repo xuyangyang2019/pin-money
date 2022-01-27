@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/userList/userList",
     "pages/taskList/taskList",
     "pages/taskCount/index3",
     "pages/userConsole/userConsole",
@@ -22,6 +23,12 @@
             "iconPath": "images/icon_component.png",
             "selectedIconPath": "images/icon_component_HL.png",
             "text": "每日任务"
+        },
+        {
+            "pagePath": "pages/userList/userList",
+            "iconPath": "images/icon_API.png",
+            "selectedIconPath": "images/icon_API_HL.png",
+            "text": "用户管理"
         },
         {
             "pagePath": "pages/taskList/taskList",
