@@ -3,7 +3,7 @@ const app = getApp()
 
 Page({
   data: {
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    childrenList: [],
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     logged: false,
@@ -18,78 +18,55 @@ Page({
       })
       return
     }
-
     // 查看是否授权
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: res => {
-              // console.log(res.userInfo)
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-            }
-          })
-        }
-      }
-    })
+    // wx.getSetting({
+    //   success: res => {
+    //     if (res.authSetting['scope.userInfo']) {
+    //       // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+    //       wx.getUserInfo({
+    //         success: res => {
+    //           console.log(res.userInfo)
+    //           this.setData({
+    //             avatarUrl: res.userInfo.avatarUrl,
+    //             userInfo: res.userInfo
+    //           })
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // console.log('onShow', this.data)
-    // if (typeof this.getTabBar === 'function' &&
-    //   this.getTabBar()) {
-    //   this.getTabBar().setData({
-    //     selected: 0
-    //   })
-    // }
-    this.onGetOpenid()
+    this.onChildren()
   },
 
-  bindGetUserInfo(e) {
-    console.log(e.detail.userInfo)
-  },
-
-  onGetUserInfo: function (e) {
-    if (!this.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-      })
-    }
-  },
-
-  onGetOpenid: function () {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
+  onChildren: function () {
+    const db = wx.cloud.database()
+    // 查询当前用户所有的 counters
+    db.collection('children').where({
+      _openid: app.globalData.openid
+    }).get({
       success: res => {
-        // console.log('[云函数] [login] user openid: ', res.result.OPENID)
-        app.globalData.openid = res.result.OPENID
+        console.log('[数据库] [查询记录] 成功: ', res)
         this.setData({
-          openid: res.result.OPENID
+          childrenList: res.data
+          // taskList: JSON.stringify(res.data, null, 2)
         })
-        // wx.navigateTo({
-        //   url: '../userConsole/userConsole',
-        // })
       },
       fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
         })
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
   },
-
+                
   // 上传图片
   doUpload: function () {
     // 选择图片
@@ -140,16 +117,3 @@ Page({
     })
   }
 })
-
-// Component({ 
-//   pageLifetimes: { 
-//     show() { 
-//       if (typeof this.getTabBar === 'function' && 
-//         this.getTabBar()) { 
-//         this.getTabBar().setData({ 
-//           selected: 0 
-//         }) 
-//       } 
-//     } 
-//   } 
-// }) 
