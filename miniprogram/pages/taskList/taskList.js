@@ -6,19 +6,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    openid: '',
-    taskList: [],
-    taskName: '',
-    taskReward: '',
-    toView: 'toView',
-    scrollTop: 'scrollTop'
+    openid: '', // 用户的openid
+    taskList: [], // 任务列表
+    taskName: '', // 任务名称
+    taskReward: '', // 任务奖励
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(app)
     if (app.globalData.openid) {
       this.setData({
         openid: app.globalData.openid
@@ -29,39 +26,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  // onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log('onShow')
     this.onQueryTask()
-
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-    console.log('onHide')
-
-  },
+  // onHide: function () {
+  // },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {},
+  // onUnload: function () {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {},
+  // onPullDownRefresh: function () {},
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {},
+  // onReachBottom: function () {},
 
   /**
    * 用户点击右上角分享
@@ -70,16 +63,27 @@ Page({
     console.log('用户点击右上角分享')
   },
 
+  /**
+   * 修改任务名称数据
+   */
   bindNameInput: function (e) {
     this.setData({
       taskName: e.detail.value
     })
   },
+
+  /**
+   * 修改任务奖励数据
+   */
   bindRewardInput: function (e) {
     this.setData({
       taskReward: e.detail.value
     })
   },
+
+  /**
+   * 添加任务
+   */
   onAddTask: function () {
     if (this.data.taskReward && this.data.taskName) {
       const db = wx.cloud.database()
@@ -134,6 +138,10 @@ Page({
     //     }
     //   }
   },
+
+  /**
+   * 删除任务
+   */
   onRemove: function (e) {
     // console.log('onRemove', e.currentTarget.dataset.task)
     let taskId = null
@@ -168,6 +176,9 @@ Page({
     }
   },
 
+  /**
+   * 查询任务
+   */
   onQueryTask: function () {
     console.log(this.data.openid)
     const db = wx.cloud.database()
@@ -190,25 +201,24 @@ Page({
         console.error('[数据库] [查询记录] 失败：', err)
       }
     })
-  },
-
-
-  onCounterInc: function () {
-    const db = wx.cloud.database()
-    const newCount = this.data.count + 1
-    db.collection('counters').doc(this.data.counterId).update({
-      data: {
-        count: newCount
-      },
-      success: res => {
-        this.setData({
-          count: newCount
-        })
-      },
-      fail: err => {
-        icon: 'none',
-        console.error('[数据库] [更新记录] 失败：', err)
-      }
-    })
   }
+
+  // onCounterInc: function () {
+  //   const db = wx.cloud.database()
+  //   const newCount = this.data.count + 1
+  //   db.collection('counters').doc(this.data.counterId).update({
+  //     data: {
+  //       count: newCount
+  //     },
+  //     success: res => {
+  //       this.setData({
+  //         count: newCount
+  //       })
+  //     },
+  //     fail: err => {
+  //       icon: 'none',
+  //       console.error('[数据库] [更新记录] 失败：', err)
+  //     }
+  //   })
+  // }
 })
