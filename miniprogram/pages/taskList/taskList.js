@@ -59,9 +59,9 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-    console.log('用户点击右上角分享')
-  },
+  // onShareAppMessage: function () {
+  //   console.log('用户点击右上角分享')
+  // },
 
   /**
    * 修改任务名称数据
@@ -180,14 +180,13 @@ Page({
    * 查询任务
    */
   onQueryTask: function () {
-    console.log(this.data.openid)
     const db = wx.cloud.database()
     // 查询当前用户所有的 counters
     db.collection('task').where({
       _openid: this.data.openid
     }).get({
       success: res => {
-        console.log('[数据库] [查询记录] 成功: ', res)
+        // console.log('[数据库] [查询记录] 成功: ', res)
         this.setData({
           taskList: res.data
           // taskList: JSON.stringify(res.data, null, 2)
@@ -198,7 +197,7 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-        console.error('[数据库] [查询记录] 失败：', err)
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
   }
