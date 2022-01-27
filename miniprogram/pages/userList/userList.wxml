@@ -1,0 +1,31 @@
+<view class="task-list">
+  <!-- 添加任务 -->
+  <view class="add-task-box">
+    <input class="weui-input" name="{{taskName}}" value="{{taskName}}" placeholder=" 任务名称" bindinput="bindNameInput" />
+    <button style="margin-left:20rx" type="primary" size="mini" bindtap="onAddTask">添加</button>
+  </view>
+
+  <!-- 操作 -->
+  <view class="task-list-title">
+    <text>任务列表</text>
+    <button style="margin-left:50rpx;padding: 2rpx 20rpx;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list-content">
+
+    <view class="list-title">
+      <view class="list-title-item">名称</view>
+      <view class="list-title-item">操作</view>
+    </view>
+
+    <scroll-view scroll-y="true" class="list-content">
+      <view class="itme-box" wx:for="{{taskList}}" wx:key="index">
+        <text class="list-item">{{item.name}}</text>
+        <view class="list-item operation-btn">
+          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemove">删除</button>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
