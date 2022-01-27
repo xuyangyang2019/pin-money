@@ -5,13 +5,8 @@ Page({
   data: {
     childrenList: [],
     taskList: [],
-    userName: '',
-
-    avatarUrl: './user-unlogin.png',
-    userInfo: {},
-    logged: false,
-    takeSession: false,
-    requestResult: ''
+    currentUserId: '',
+    currentUserName: '',
   },
 
   onLoad: function () {
@@ -92,54 +87,62 @@ Page({
   },
 
   /**
-   * 修改执行人名称
-   */
-  bindNameInput: function (e) {
-    this.setData({
-      userName: e.detail.value
-    })
-  },
-
-  /**
    * 添加任务
    */
-  onAddUser: function () {
-    if (this.data.userName) {
-      const db = wx.cloud.database()
-      db.collection('children').add({
-        data: {
-          name: this.data.userName,
-        },
-        success: res => {
-          // 在返回结果中会包含新创建的记录的 _id
-          let oldData = [...this.data.childrenList, {
-            _id: res._id,
-            _openid: app.globalData.openid,
-            name: this.data.userName,
-          }]
-          this.setData({
-            childrenList: oldData,
-            userName: '',
-          })
-          wx.showToast({
-            title: '新增记录成功',
-          })
-          // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-        },
-        fail: err => {
-          wx.showToast({
-            icon: 'none',
-            title: '新增记录失败'
-          })
-          console.error('[数据库] [新增记录] 失败：', err)
-        }
-      })
-    } else {
-      wx.showToast({
-        title: '数据格式不正确，不能添加！',
-        icon: 'error'
+  onChoseUser: function (e) {
+    console.log('onChoseUser', e.currentTarget.dataset.user)
+    if (e.currentTarget.dataset.user) {
+      const {
+        _id,
+        name
+      } = e.currentTarget.dataset.user
+      this.setData({
+        currentUserName: name,
+        currentUserId: _id,
       })
     }
+  },
+
+  switch1Change: function (e) {
+    // console.log(e)
+    console.log('onRemove', e.currentTarget.dataset.task)
+
+    // if (this.data.userName) {
+    //   const db = wx.cloud.database()
+    //   db.collection('children').add({
+    //     data: {
+    //       name: this.data.userName,
+    //     },
+    //     success: res => {
+    //       // 在返回结果中会包含新创建的记录的 _id
+    //       let oldData = [...this.data.childrenList, {
+    //         _id: res._id,
+    //         _openid: app.globalData.openid,
+    //         name: this.data.userName,
+    //       }]
+    //       this.setData({
+    //         childrenList: oldData,
+    //         userName: '',
+    //       })
+    //       wx.showToast({
+    //         title: '新增记录成功',
+    //       })
+    //       // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+    //     },
+    //     fail: err => {
+    //       wx.showToast({
+    //         icon: 'none',
+    //         title: '新增记录失败'
+    //       })
+    //       console.error('[数据库] [新增记录] 失败：', err)
+    //     }
+    //   })
+    // } else {
+    //   wx.showToast({
+    //     title: '数据格式不正确，不能添加！',
+    //     icon: 'error'
+    //   })
+    // }
   },
 
   // 上传图片

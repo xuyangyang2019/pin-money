@@ -17,11 +17,12 @@
 }
 .user-item {
   padding: 20rpx 0;
-  /* border-bottom: solid red 1px; */
 }
-/* .user-name{
-  border: solid red 1px;
-} */
+.user-item-checked {
+  color: green;
+  border-bottom: solid green 2px;
+}
+
 
 .task-list-content {
   flex: 1 1 auto;

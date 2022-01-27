@@ -1,12 +1,11 @@
 <!--index.wxml-->
 <view class="home-view">
   <view wx:if="{{childrenList.length === 0}}">没有用户，请到用户管理添加用户</view>
-
   <view wx:else class="home-content">
     <!-- 用户列表 -->
     <view class="user-list-content">
-      <view class="user-item" wx:for="{{childrenList}}" wx:key="index">
-        <text class="user-name">{{item.name}}</text>
+      <view class="'user-item' {{currentUserId === item._id ? 'user-item-checked':''}}" wx:for="{{childrenList}}" wx:key="index">
+        <text class="user-name" data-user="{{item}}" bindtap="onChoseUser">{{item.name}}</text>
       </view>
     </view>
 
