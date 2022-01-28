@@ -1,0 +1,109 @@
+/**index.wxss**/
+.home-view {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.home-content {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.user-list-content {
+  min-width: 100rpx;
+  margin-right: 20rpx;
+}
+
+.user-item {
+  padding: 20rpx 0;
+}
+
+.user-item-checked {
+  color: green;
+  border-bottom: solid green 2px;
+}
+
+
+.task-list-content {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* border: solid black 1rpx; */
+}
+
+.list-title {
+  display: flex;
+  border: solid #DFDFDF 1rpx;
+}
+
+.list-title-item1 {
+  padding: 10rpx;
+  width: 30%;
+  border-right: #DFDFDF solid 1rpx;
+}
+
+.list-title-item2 {
+  padding: 10rpx;
+  width: 70%;
+  border-right: #DFDFDF solid 1rpx;
+}
+
+.list-content {
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  border: solid #DFDFDF 1px;
+  border-top: none;
+}
+
+.itme-box {
+  display: flex;
+  align-items: center;
+  border-bottom: #DFDFDF 1px solid;
+}
+
+.list-user-name {
+  width: 30%;
+  padding: 10rpx;
+  box-sizing: border-box;
+
+}
+
+.list-task-states {
+  width: 70%;
+  padding: 10rpx;
+  box-sizing: border-box;
+  border-left: solid #DFDFDF 1px;
+}
+
+.list-task-state {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10rpx;
+  box-sizing: border-box;
+}
+
+.operation-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 20rpx;
+}
+
+.wx-switch-input {
+  width: 42px !important;
+  height: 22px !important;
+}
+
+.wx-switch-input::before {
+  width: 40px !important;
+  height: 20px !important;
+}
+
+.wx-switch-input::after {
+  width: 18px !important;
+  height: 18px !important;
+}

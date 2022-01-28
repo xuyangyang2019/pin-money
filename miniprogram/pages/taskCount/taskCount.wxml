@@ -1,0 +1,42 @@
+<!--index.wxml-->
+<view class="home-view">
+  <view wx:if="{{dailyTask.length === 0}}">没有数据</view>
+  <view wx:else class="home-content">
+    <!-- 任务列表 -->
+    <view class="task-list-content">
+      <view class="list-title">
+        <view class="list-title-item1">姓名</view>
+        <view class="list-title-item2">总奖励</view>
+      </view>
+      <scroll-view scroll-y="true" class="list-content">
+        <view class="itme-box" wx:for="{{dailyTask}}" wx:for-item="dt" wx:key="index">
+          <!-- 用户名 -->
+          <text class="list-user-name">{{dt.userName}}</text>
+
+          <!-- 任务状态 -->
+          <view class="list-task-states">
+            <text class="list-item">{{dt.totalMoney}}</text>
+            <text class="list-item">核销</text>
+            <!-- <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
+              <text class="user-name">{{index}}</text>
+              <view class="list-item operation-btn">
+                <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+              </view>
+            </view> -->
+          </view>
+
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 上传图片 -->
+  <!-- <view class="uploader">
+    <view class="uploader-text" bindtap="doUpload">
+      <text>上传图片</text>
+    </view>
+    <view class="uploader-container" wx:if="{{imgUrl}}">
+      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
+    </view>
+  </view> -->
+</view>
