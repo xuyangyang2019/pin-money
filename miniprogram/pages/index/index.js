@@ -1,12 +1,18 @@
 //index.js
 const app = getApp()
+const db = wx.cloud.database()
+
 
 Page({
   data: {
+    dailyTask: [],
+    changeInfo: {},
+
     childrenList: [],
-    taskList: [],
     currentUserId: '',
     currentUserName: '',
+    taskList: [],
+    taskConfig: {},
   },
 
   onLoad: function () {
@@ -39,20 +45,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.onQueryChildren()
-    this.onQueryTask()
+    this.onQueryDailyTask()
   },
 
-  onQueryChildren: function () {
-    const db = wx.cloud.database()
-    // 查询当前用户所有的 counters
-    db.collection('children').where({
-      _openid: app.globalData.openid
+  /**
+   * 查询每日任务
+   */
+  onQueryDailyTask: function () {
+    db.collection('dailyTask').where({
+      _openid: app.globalData.openid,
+      belongTime: new Date(new Date().toLocaleDateString()).getTime()
     }).get({
       success: res => {
-        console.log('[数据库] [查询记录] 成功: ', res)
+        // console.log('[数据库] [查询记录] 成功: ', res)
         this.setData({
-          childrenList: res.data
+          dailyTask: res.data
         })
       },
       fail: err => {
@@ -60,89 +67,59 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-        // console.error('[数据库] [查询记录] 失败：', err)
-      }
-    })
-  },
-  onQueryTask: function () {
-    const db = wx.cloud.database()
-    // 查询当前用户所有的 counters
-    db.collection('task').where({
-      _openid: app.globalData.openid
-    }).get({
-      success: res => {
-        console.log('[数据库] [查询记录] 成功: ', res)
-        this.setData({
-          taskList: res.data
-        })
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-        // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
   },
 
   /**
-   * 添加任务
+   * 更新每日任务
    */
-  onChoseUser: function (e) {
-    console.log('onChoseUser', e.currentTarget.dataset.user)
-    if (e.currentTarget.dataset.user) {
-      const {
-        _id,
-        name
-      } = e.currentTarget.dataset.user
-      this.setData({
-        currentUserName: name,
-        currentUserId: _id,
-      })
-    }
-  },
-
   switch1Change: function (e) {
-    // console.log(e)
-    console.log('onRemove', e.currentTarget.dataset.task)
-
-    // if (this.data.userName) {
-    //   const db = wx.cloud.database()
-    //   db.collection('children').add({
-    //     data: {
-    //       name: this.data.userName,
-    //     },
-    //     success: res => {
-    //       // 在返回结果中会包含新创建的记录的 _id
-    //       let oldData = [...this.data.childrenList, {
-    //         _id: res._id,
-    //         _openid: app.globalData.openid,
-    //         name: this.data.userName,
-    //       }]
-    //       this.setData({
-    //         childrenList: oldData,
-    //         userName: '',
-    //       })
-    //       wx.showToast({
-    //         title: '新增记录成功',
-    //       })
-    //       // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-    //     },
-    //     fail: err => {
-    //       wx.showToast({
-    //         icon: 'none',
-    //         title: '新增记录失败'
-    //       })
-    //       console.error('[数据库] [新增记录] 失败：', err)
-    //     }
-    //   })
-    // } else {
-    //   wx.showToast({
-    //     title: '数据格式不正确，不能添加！',
-    //     icon: 'error'
-    //   })
-    // }
+    const {
+      task,
+      taskState,
+      taskStateName
+    } = e.currentTarget.dataset
+    let tm = taskState ? task.totalMoney - 1 : task.totalMoney + 1
+    let ts = task.taskState
+    ts[taskStateName] = !taskState
+    this.setData({
+      changeInfo: {
+        id: task._id,
+        tm: tm,
+        ts: ts,
+      }
+    })
+    // 修改每日任务的状态
+    db.collection('dailyTask').doc(task._id).update({
+      data: {
+        taskState: ts,
+        totalMoney: tm,
+      },
+      success: (res) => {
+        let newDailyTask = this.data.dailyTask
+        const {
+          id,
+          tm,
+          ts
+        } = this.data.changeInfo
+        for (const ndt of newDailyTask) {
+          if (ndt._id === id) {
+            ndt.taskState = ts
+            ndt.totalMoney = tm
+          }
+        }
+        this.setData({
+          dailyTask: newDailyTask
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+      }
+    })
   },
 
   // 上传图片
