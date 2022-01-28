@@ -7,12 +7,7 @@ Page({
   data: {
     dailyTask: [],
     changeInfo: {},
-
-    childrenList: [],
-    currentUserId: '',
-    currentUserName: '',
-    taskList: [],
-    taskConfig: {},
+    rewardMap: {},
   },
 
   onLoad: function () {
@@ -45,6 +40,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.rewardFunction()
     this.onQueryDailyTask()
   },
 
@@ -71,6 +67,29 @@ Page({
     })
   },
 
+  rewardFunction() {
+    wx.cloud.callFunction({
+      name: 'taskReward',
+      data: {},
+      success: res => {
+        // console.log(res)
+        // wx.showToast({
+        //   title: '调用成功',
+        // })
+        this.setData({
+          rewardMap: res.result.rewardMap
+        })
+      },
+      fail: err => {
+        // wx.showToast({
+        //   icon: 'none',
+        //   title: '调用失败',
+        // })
+        console.error('[云函数] [sum] 调用失败：', err)
+      }
+    })
+  },
+
   /**
    * 更新每日任务
    */
@@ -80,7 +99,8 @@ Page({
       taskState,
       taskStateName
     } = e.currentTarget.dataset
-    let tm = taskState ? task.totalMoney - 1 : task.totalMoney + 1
+    let cm = this.data.rewardMap[taskStateName] ? Number(this.data.rewardMap[taskStateName]) : 0
+    let tm = taskState ? task.totalMoney - cm : task.totalMoney + cm
     let ts = task.taskState
     ts[taskStateName] = !taskState
     this.setData({
