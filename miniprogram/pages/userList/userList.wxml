@@ -1,7 +1,7 @@
 <view class="task-list">
   <!-- 添加任务 -->
   <view class="add-task-box">
-    <input class="weui-input" name="{{taskName}}" value="{{taskName}}" placeholder="用户名称" bindinput="bindNameInput" />
+    <input class="weui-input" name="{{userName}}" value="{{userName}}" placeholder="用户名称" bindinput="bindNameInput" />
     <button style="margin-left:20rx" type="primary" size="mini" bindtap="onAddTask">添加</button>
   </view>
 
@@ -20,7 +20,7 @@
     </view>
 
     <scroll-view scroll-y="true" class="list-content">
-      <view class="itme-box" wx:for="{{taskList}}" wx:key="index">
+      <view class="itme-box" wx:for="{{userList}}" wx:key="index">
         <text class="list-item">{{item.name}}</text>
         <view class="list-item operation-btn">
           <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemove">删除</button>
