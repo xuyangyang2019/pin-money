@@ -32,7 +32,7 @@ Page({
   },
 
   /**
-   * 修改任务名称数据
+   * 修改用户名称数据
    */
   bindNameInput: function (e) {
     this.setData({
@@ -41,9 +41,9 @@ Page({
   },
 
   /**
-   * 添加任务
+   * 添加用户
    */
-  onAddTask: function () {
+  onAddUser: function () {
     if (this.data.userName) {
       const db = wx.cloud.database()
       db.collection('children').add({
@@ -57,30 +57,34 @@ Page({
             _openid: app.globalData.openid,
             name: this.data.userName,
           }]
-          this.setData({
-            userList: oldData,
-            userName: '',
-          })
+
           wx.showToast({
             title: '新增用户成功',
           })
           // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
           // 自动创建每日任务
+          let ts = {}
+          for (const task of this.data.taskList) {
+            ts[task.name] = false
+          }
           let dd = {
-            _openid: app.globalData.openid,
+            // _openid: app.globalData.openid,
             userId: res._id,
             userName: this.data.userName,
-            taskState: {},
+            taskState: ts,
             totalMoney: 0,
             createTime: new Date().toLocaleString(),
             belongTime: new Date(new Date().toLocaleDateString()).getTime()
           }
-          console.log(dd)
-          // db.collection('dailyTask').add({
-          //   data: dd
-          // }).then(res => {
-          //   console.log(res)
-          // })
+          db.collection('dailyTask').add({
+            data: dd
+          }).then(res => {
+            console.log(res)
+          })
+          this.setData({
+            userList: oldData,
+            userName: '',
+          })
 
         },
         fail: err => {
@@ -100,26 +104,29 @@ Page({
   },
 
   /**
-   * 删除任务
+   * 删除用户
    */
   onRemove: function (e) {
     // console.log('onRemove', e.currentTarget.dataset.task)
-    let taskId = null
+    let userId = null
     if (e.currentTarget.dataset.task) {
-      taskId = e.currentTarget.dataset.task._id
+      userId = e.currentTarget.dataset.task._id
     }
-    if (taskId) {
+    if (userId) {
       const db = wx.cloud.database()
-      db.collection('children').doc(taskId).remove({
+      // 删除用户信息
+      db.collection('children').doc(userId).remove({
         success: res => {
           wx.showToast({
             title: '删除成功',
           })
           this.setData({
             userList: this.data.userList.filter(x => {
-              return x._id !== taskId
+              return x._id !== userId
             })
           })
+          // 删除今天的任务数据
+
         },
         fail: err => {
           wx.showToast({
@@ -157,12 +164,12 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-        // console.error('[数据库] [查询记录] 失败：', err)
+        console.error('[数据库] [查询记录] 失败：', err)
       }
     })
   },
 
-    /**
+  /**
    * 查询任务
    */
   onQueryTask: function () {

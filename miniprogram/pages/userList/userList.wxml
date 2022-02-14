@@ -2,7 +2,7 @@
   <!-- 添加任务 -->
   <view class="add-task-box">
     <input class="weui-input" name="{{userName}}" value="{{userName}}" placeholder="用户名称" bindinput="bindNameInput" />
-    <button style="margin-left:20rx" type="primary" size="mini" bindtap="onAddTask">添加</button>
+    <button style="margin-left:20rx" type="primary" size="mini" bindtap="onAddUser">添加</button>
   </view>
 
   <!-- 操作 -->
