@@ -106,26 +106,34 @@ Page({
   /**
    * 删除用户
    */
-  onRemove: function (e) {
-    // console.log('onRemove', e.currentTarget.dataset.task)
-    let userId = null
+  onRemoveUser: function (e) {
+    // console.log('onRemoveUser', e.currentTarget.dataset.task)
     if (e.currentTarget.dataset.task) {
-      userId = e.currentTarget.dataset.task._id
-    }
-    if (userId) {
+      const {
+        name,
+        _id,
+        _openid
+      } = e.currentTarget.dataset.task
       const db = wx.cloud.database()
       // 删除用户信息
-      db.collection('children').doc(userId).remove({
+      db.collection('children').doc(_id).remove({
         success: res => {
           wx.showToast({
             title: '删除成功',
           })
           this.setData({
             userList: this.data.userList.filter(x => {
-              return x._id !== userId
+              return x._id !== _id
             })
           })
           // 删除今天的任务数据
+          db.collection('dailyTask').where({
+            userName: name,
+            _openid: _openid,
+            belongTime: new Date(new Date().toLocaleDateString()).getTime()
+          }).remove().then(res => {
+            console.log(res)
+          })
 
         },
         fail: err => {

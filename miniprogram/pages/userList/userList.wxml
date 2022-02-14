@@ -23,7 +23,7 @@
       <view class="itme-box" wx:for="{{userList}}" wx:key="index">
         <text class="list-item">{{item.name}}</text>
         <view class="list-item operation-btn">
-          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemove">删除</button>
+          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
         </view>
       </view>
     </scroll-view>
