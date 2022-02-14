@@ -9,7 +9,7 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
     // const wxContext = cloud.getWXContext()
-    
+
     const db = cloud.database()
     const {
         data: taskList
@@ -28,6 +28,7 @@ exports.main = async (event, context) => {
             userId: user._id,
             userName: user.name,
             taskState: taskState,
+            hasPaied: false,
             totalMoney: 0,
             createTime: new Date().toLocaleString(),
             belongTime: new Date(new Date().toLocaleDateString()).getTime()
