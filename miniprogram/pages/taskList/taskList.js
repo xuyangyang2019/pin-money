@@ -100,6 +100,12 @@ Page({
             name: this.data.taskName,
             reward: this.data.taskReward
           }]
+
+          // 更新每日任务
+          let time = new Date(new Date().toLocaleDateString()).getTime()
+          this.updateTaskFunction(this.data.taskName, time)
+
+          // 更新当前数据
           this.setData({
             taskList: oldData,
             taskName: '',
@@ -109,6 +115,7 @@ Page({
             title: '新增记录成功',
           })
           // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+
         },
         fail: err => {
           wx.showToast({
@@ -124,19 +131,6 @@ Page({
         icon: 'error'
       })
     }
-    // wx.showModal({
-    //   title: '提示',
-    //   content: '',
-    //   placeholderText: '请输入任务名称',
-    //   editable: true,
-    //   success(res) {
-    //     if (res.confirm) {
-    //       console.log('用户点击确定', res.content)
-    //       })
-    //     } else if (res.cancel) {
-    //       console.log('用户点击取消')
-    //     }
-    //   }
   },
 
   /**
@@ -200,7 +194,33 @@ Page({
         // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
-  }
+  },
+  // 更新任务
+  updateTaskFunction(name, time) {
+    wx.cloud.callFunction({
+      name: 'updateTask',
+      data: {
+        taskName: name,
+        belongTime: time
+      },
+      success: res => {
+        console.log(res)
+        wx.showToast({
+          title: '调用成功',
+        })
+        // this.setData({
+        //   result: JSON.stringify(res.result)
+        // })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '调用失败',
+        })
+        console.error('[云函数] [sum] 调用失败：', err)
+      }
+    })
+  },
 
   // onCounterInc: function () {
   //   const db = wx.cloud.database()
