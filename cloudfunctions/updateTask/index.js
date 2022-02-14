@@ -9,33 +9,73 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
     // const wxContext = cloud.getWXContext()
-    let taskName = await event.taskName
-    let taskState = {}
-    taskState[taskName] = false
-    // console.log(taskState)
+    // let taskName = await event.taskName
+    const {
+        taskName,
+        belongTime,
+        deleteKey,
+        userInfo
+    } = event
+
 
     const db = cloud.database()
-    const {
-        data: dailyTaskList
-    } = await db.collection('dailyTask').where({
-        _openid: event.userInfo.openId,
-        belongTime: event.belongTime
-    }).get()
+    const _ = db.command
 
-    for (const dl of dailyTaskList) {
-        const _ = db.command
-        db.collection('dailyTask').doc(dl._id).update({
-            data: {
-                taskState: {
-                    ...dl.taskState,
-                    ...taskState
-                }
-            },
-            success: function (res) {
-                console.log(res.data)
-            }
-        })
+    if (deleteKey) {
+        // 所有的任务删除字段
+
+    } else {
+        // 所有的任务添加字段
+        // db.collection('dailyTask').where({
+        //     _openid: userInfo.openId,
+        //     belongTime: belongTime
+        // }).update({
+        //     data: {
+        //         'taskState':_.push({})
+        //     }
+        // })
     }
+
+    // const {
+    //     data: dailyTaskList
+    // } = await db.collection('dailyTask').where({
+    //     _openid: userInfo.openId,
+    //     belongTime: belongTime
+    // }).get()
+
+    // for (const dl of dailyTaskList) {
+    //     const _ = db.command
+    //     let taskState = {
+    //         ...dl.taskState
+    //     }
+    //     if (deleteKey) {
+    //         let nts = {}
+    //         for (const key in taskState) {
+    //             if (Object.hasOwnProperty.call(taskState, key)) {
+    //                 if (key !== taskName) {
+    //                     nts[key] = taskState[key]
+    //                 }
+    //             }
+    //         }
+    //         taskState = nts
+    //     } else {
+    //         taskState[taskName] = false
+    //     }
+    //     console.log(deleteKey, taskState)
+    //     db.collection('dailyTask').doc(dl._id).update({
+    //         data: {
+    //             taskState: {
+    //                 ...taskState
+    //             }
+    //         },
+    //         success: function (res) {
+    //             console.log(res.data)
+    //         },
+    //         fail: function (err) {
+    //             console.log('更细 dailyTask 失败 taskState', err)
+    //         }
+    //     })
+    // }
 
     return {
         event

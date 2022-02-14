@@ -136,22 +136,28 @@ Page({
   /**
    * 删除任务
    */
-  onRemove: function (e) {
-    // console.log('onRemove', e.currentTarget.dataset.task)
-    let taskId = null
+  onRemoveTask: function (e) {
+    console.log('onRemoveTask', e.currentTarget.dataset.task)
     if (e.currentTarget.dataset.task) {
-      taskId = e.currentTarget.dataset.task._id
-    }
-    if (taskId) {
+      const {
+        _id,
+        _openid,
+        name
+      } = e.currentTarget.dataset.task
+      if (!_id) return
       const db = wx.cloud.database()
-      db.collection('task').doc(taskId).remove({
+      db.collection('task').doc(_id).remove({
         success: res => {
           wx.showToast({
             title: '删除成功',
           })
+          // 删除每日任务中的数据
+          let time = new Date(new Date().toLocaleDateString()).getTime()
+          this.updateTaskFunction(name, time, true)
+
           this.setData({
             taskList: this.data.taskList.filter(x => {
-              return x._id !== taskId
+              return x._id !== _id
             })
           })
         },
@@ -196,21 +202,19 @@ Page({
     })
   },
   // 更新任务
-  updateTaskFunction(name, time) {
+  updateTaskFunction(name, time, deleteKey = false) {
     wx.cloud.callFunction({
       name: 'updateTask',
       data: {
         taskName: name,
-        belongTime: time
+        belongTime: time,
+        deleteKey: deleteKey
       },
       success: res => {
         console.log(res)
         wx.showToast({
           title: '调用成功',
         })
-        // this.setData({
-        //   result: JSON.stringify(res.result)
-        // })
       },
       fail: err => {
         wx.showToast({
