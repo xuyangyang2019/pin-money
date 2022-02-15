@@ -6,23 +6,20 @@
     <view class="task-list-content">
       <view class="list-title">
         <view class="list-title-item1">姓名</view>
-        <view class="list-title-item2">总奖励</view>
+        <view class="list-title-item2">时间</view>
+        <view class="list-title-item3">奖励</view>
+        <view class="list-title-item4">操作</view>
       </view>
       <scroll-view scroll-y="true" class="list-content">
         <view class="itme-box" wx:for="{{dailyTask}}" wx:for-item="dt" wx:key="index">
           <!-- 用户名 -->
-          <text class="list-user-name">{{dt.userName}}</text>
+          <text class="list-item1">{{dt.userName}}</text>
+          <text class="list-item2">{{ dt.timeNow}}</text>
+          <text class="list-item3">{{dt.totalMoney}}</text>
 
           <!-- 任务状态 -->
           <view class="list-task-states">
-            <text class="list-item">{{dt.totalMoney}}</text>
             <text class="list-item">核销</text>
-            <!-- <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
-              <text class="user-name">{{index}}</text>
-              <view class="list-item operation-btn">
-                <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
-              </view>
-            </view> -->
           </view>
 
         </view>

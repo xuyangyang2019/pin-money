@@ -48,14 +48,27 @@ Page({
    * 查询每日任务
    */
   onQueryDailyTask: function () {
+    // 查下所有的没有支付的任务
     db.collection('dailyTask').where({
       _openid: app.globalData.openid,
-      belongTime: new Date(new Date().toLocaleDateString()).getTime()
+      hasPaied: false,
     }).get({
       success: res => {
-        // console.log('[数据库] [查询记录] 成功: ', res)
+        console.log('[数据库] [查询记录] 成功: ', res)
+        let dailyTask = res.data
+        let rewardMap = {}
+        for (const dt of dailyTask) {
+          dt.timeNow = new Date().toLocaleDateString(dt.belongTime)
+          let reward = parseInt(dt.totalMoney, 10) || 0
+          if (rewardMap[dt.userName]) {
+            rewardMap[dt.userName] = rewardMap[dt.userName] + reward
+          } else {
+            rewardMap[dt.userName] = reward
+          }
+        }
         this.setData({
-          dailyTask: res.data
+          dailyTask: dailyTask,
+          rewardMap: rewardMap
         })
       },
       fail: err => {

@@ -41,13 +41,25 @@
 
 .list-title-item1 {
   padding: 10rpx;
-  width: 30%;
+  flex: 1 1 auto;
   border-right: #DFDFDF solid 1rpx;
 }
 
 .list-title-item2 {
   padding: 10rpx;
-  width: 70%;
+  flex: 1 1 auto;
+  border-right: #DFDFDF solid 1rpx;
+}
+
+.list-title-item3 {
+  padding: 10rpx;
+  width: 100rpx;
+  border-right: #DFDFDF solid 1rpx;
+}
+
+.list-title-item4 {
+  padding: 10rpx;
+  width: 120rpx;
   border-right: #DFDFDF solid 1rpx;
 }
 
@@ -65,25 +77,30 @@
   border-bottom: #DFDFDF 1px solid;
 }
 
-.list-user-name {
-  width: 30%;
+.list-item1 {
   padding: 10rpx;
-  box-sizing: border-box;
-
+  flex: 1 1 auto;
+  border-right: #DFDFDF solid 1rpx;
 }
 
+.list-item2 {
+  padding: 10rpx;
+  flex: 1 1 auto;
+  border-right: #DFDFDF solid 1rpx;
+}
+
+.list-item3 {
+  padding: 10rpx;
+  width: 100rpx;
+  border-right: #DFDFDF solid 1rpx;
+}
+
+
 .list-task-states {
-  width: 70%;
+  width: 120rpx;
   padding: 10rpx;
   box-sizing: border-box;
   border-left: solid #DFDFDF 1px;
-}
-
-.list-task-state {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10rpx;
-  box-sizing: border-box;
 }
 
 .operation-btn {
