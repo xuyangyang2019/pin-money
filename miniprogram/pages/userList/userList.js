@@ -72,6 +72,7 @@ Page({
             userId: res._id,
             userName: this.data.userName,
             taskState: ts,
+            hasPaied: false,
             totalMoney: 0,
             createTime: new Date().toLocaleString(),
             belongTime: new Date(new Date().toLocaleDateString()).getTime()
