@@ -17,30 +17,12 @@ Page({
       })
       return
     }
-    // 查看是否授权
-    // wx.getSetting({
-    //   success: res => {
-    //     if (res.authSetting['scope.userInfo']) {
-    //       // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-    //       wx.getUserInfo({
-    //         success: res => {
-    //           console.log(res.userInfo)
-    //           this.setData({
-    //             avatarUrl: res.userInfo.avatarUrl,
-    //             userInfo: res.userInfo
-    //           })
-    //         }
-    //       })
-    //     }
-    //   }
-    // })
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.rewardFunction()
     this.onQueryDailyTask()
   },
 
@@ -58,7 +40,7 @@ Page({
         let dailyTask = res.data
         let rewardMap = {}
         for (const dt of dailyTask) {
-          dt.timeNow = new Date().toLocaleDateString(dt.belongTime)
+          dt.timeNow = new Date(dt.belongTime).toLocaleDateString()
           let reward = parseInt(dt.totalMoney, 10) || 0
           if (rewardMap[dt.userName]) {
             rewardMap[dt.userName] = rewardMap[dt.userName] + reward
@@ -80,28 +62,6 @@ Page({
     })
   },
 
-  rewardFunction() {
-    wx.cloud.callFunction({
-      name: 'taskReward',
-      data: {},
-      success: res => {
-        // console.log(res)
-        // wx.showToast({
-        //   title: '调用成功',
-        // })
-        this.setData({
-          rewardMap: res.result.rewardMap
-        })
-      },
-      fail: err => {
-        // wx.showToast({
-        //   icon: 'none',
-        //   title: '调用失败',
-        // })
-        console.error('[云函数] [sum] 调用失败：', err)
-      }
-    })
-  },
 
   /**
    * 更新每日任务
@@ -151,56 +111,6 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-      }
-    })
-  },
-
-  // 上传图片
-  doUpload: function () {
-    // 选择图片
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-
-        wx.showLoading({
-          title: '上传中',
-        })
-
-        const filePath = res.tempFilePaths[0]
-
-        // 上传图片
-        const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            console.log('[上传文件] 成功：', res)
-
-            app.globalData.fileID = res.fileID
-            app.globalData.cloudPath = cloudPath
-            app.globalData.imagePath = filePath
-
-            wx.navigateTo({
-              url: '../storageConsole/storageConsole'
-            })
-          },
-          fail: e => {
-            console.error('[上传文件] 失败：', e)
-            wx.showToast({
-              icon: 'none',
-              title: '上传失败',
-            })
-          },
-          complete: () => {
-            wx.hideLoading()
-          }
-        })
-
-      },
-      fail: e => {
-        console.error(e)
       }
     })
   }
