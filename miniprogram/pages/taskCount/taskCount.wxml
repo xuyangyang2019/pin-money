@@ -2,60 +2,59 @@
 <view class="home-view">
   <view style="margin:20rpx 0;">
     <text class="count-tip">数据类型：</text>
-
     <text style="color: green;;">待处理</text>
     <!-- 已支付 -->
     <!-- 全部 -->
   </view>
 
-  <view wx:if="{{dailyTask.length === 0}}">没有数据</view>
-
-  <view wx:else>
-    <view class="count-tip">详细信息</view>
-
-    <view class="table">
-      <view class="tr bg-w">
-        <view class="th">姓名</view>
-        <view class="th">日期</view>
-        <view class="th">奖励</view>
-        <view class="th">操作</view>
-      </view>
-      <block wx:for="{{dailyTask}}" wx:for-item="dt" wx:key="index">
-        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-          <view class="td">{{dt.userName}}</view>
-          <view class="td">{{dt.timeNow}}</view>
-          <view class="td">{{dt.totalMoney}}</view>
-          <view class="td">
-            <text class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
-          </view>
-        </view>
-        <view class="tr" wx:else>
-          <view class="td">{{dt.userName}}</view>
-          <view class="td">{{dt.timeNow}}</view>
-          <view class="td">{{dt.totalMoney}}</view>
-          <view class="td">
-            <text class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
-          </view>
-        </view>
-      </block>
+  <view class="count-tip">详细信息</view>
+  <view class="table">
+    <view class="tr bg-w">
+      <view class="th">姓名</view>
+      <view class="th">日期</view>
+      <view class="th">奖励</view>
+      <view class="th">操作</view>
     </view>
-
-    <view class="count-tip">信息汇总</view>
-    <view class="table">
-      <view class="tr bg-w">
-        <view class="th">姓名</view>
-        <view class="th">总数</view>
+    <block wx:for="{{dailyTask}}" wx:for-item="dt" wx:key="index">
+      <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+        <view class="td">{{dt.userName}}</view>
+        <view class="td">{{dt.timeNow}}</view>
+        <view class="td">{{dt.totalMoney}}</view>
+        <view class="td">
+          <text class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
+        </view>
       </view>
-      <block wx:for="{{rewardMap}}" wx:for-item="rm" wx:key="index" wx:for-index='idx'>
-        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-          <view class="td">{{idx}}</view>
-          <view class="td">{{rm}}</view>
+      <view class="tr" wx:else>
+        <view class="td">{{dt.userName}}</view>
+        <view class="td">{{dt.timeNow}}</view>
+        <view class="td">{{dt.totalMoney}}</view>
+        <view class="td">
+          <text class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
         </view>
-        <view class="tr" wx:else>
-          <view class="td">{{idx}}</view>
-          <view class="td">{{rm}}</view>
-        </view>
-      </block>
+      </view>
+    </block>
+    <block wx:if="{{dailyTask.length === 0}}">
+      <view class="tr bg-g">
+        <view class="td">没有数据</view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{dailyTask.length > 0}}" class="count-tip">信息汇总</view>
+  <view wx:if="{{dailyTask.length > 0}}" class="table">
+    <view class="tr bg-w">
+      <view class="th">姓名</view>
+      <view class="th">总数</view>
     </view>
+    <block wx:for="{{rewardMap}}" wx:for-item="rm" wx:key="index" wx:for-index='idx'>
+      <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+        <view class="td">{{idx}}</view>
+        <view class="td">{{rm}}</view>
+      </view>
+      <view class="tr" wx:else>
+        <view class="td">{{idx}}</view>
+        <view class="td">{{rm}}</view>
+      </view>
+    </block>
   </view>
 </view>
