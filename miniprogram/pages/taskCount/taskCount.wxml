@@ -5,35 +5,33 @@
     <!-- 任务列表 -->
     <view class="task-list-content">
       <view class="list-title">
-        <view class="list-title-item1">姓名</view>
-        <view class="list-title-item2">时间</view>
-        <view class="list-title-item3">奖励</view>
-        <view class="list-title-item4">操作</view>
+        <view class="list-title-item list-title-item1">姓名</view>
+        <view class="list-title-item list-title-item1">时间</view>
+        <view class="list-title-item">奖励</view>
+        <view class="list-title-item">操作</view>
       </view>
+
       <scroll-view scroll-y="true" class="list-content">
         <view class="itme-box" wx:for="{{dailyTask}}" wx:for-item="dt" wx:key="index">
           <!-- 用户名 -->
-          <text class="list-item1">{{dt.userName}}</text>
-          <text class="list-item2">{{ dt.timeNow}}</text>
-          <text class="list-item3">{{dt.totalMoney}}</text>
-
+          <text class="list-title-item">{{dt.userName}}</text>
+          <text class="list-title-item">{{dt.timeNow}}</text>
+          <text class="list-title-item">{{dt.totalMoney}}</text>
           <!-- 任务状态 -->
-          <view class="list-task-states">
+          <view class="list-title-item list-task-states">
             <text class="list-item">核销</text>
           </view>
-
         </view>
       </scroll-view>
+
+      <view class="list-title">
+        <view class="list-title-item">姓名</view>
+        <view class="list-title-item">总奖励</view>
+      </view>
+      <view class="itme-box" wx:for="{{rewardMap}}" wx:for-item="rm" wx:key="index" wx:for-index='idx'>
+        <text class="list-title-item">{{idx}}</text>
+        <text class="list-title-item">{{rm}}</text>
+      </view>
     </view>
   </view>
-
-  <!-- 上传图片 -->
-  <!-- <view class="uploader">
-    <view class="uploader-text" bindtap="doUpload">
-      <text>上传图片</text>
-    </view>
-    <view class="uploader-container" wx:if="{{imgUrl}}">
-      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
-    </view>
-  </view> -->
 </view>
