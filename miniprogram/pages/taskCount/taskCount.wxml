@@ -19,7 +19,7 @@
           <text class="list-title-item">{{dt.totalMoney}}</text>
           <!-- 任务状态 -->
           <view class="list-title-item list-task-states">
-            <text class="list-item">核销</text>
+            <text class="list-item"  data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
           </view>
         </view>
       </scroll-view>

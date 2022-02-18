@@ -11,12 +11,12 @@ Page({
   },
 
   onLoad: function () {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
+    // if (!wx.cloud) {
+    //   wx.redirectTo({
+    //     url: '../chooseLib/chooseLib',
+    //   })
+    //   return
+    // }
   },
 
   /**
@@ -30,10 +30,12 @@ Page({
    * 查询每日任务
    */
   onQueryDailyTask: function () {
+    const _ = db.command
     // 查下所有的没有支付的任务
     db.collection('dailyTask').where({
       _openid: app.globalData.openid,
       hasPaied: false,
+      totalMoney: _.gt(0)
     }).get({
       success: res => {
         console.log('[数据库] [查询记录] 成功: ', res)
@@ -66,52 +68,47 @@ Page({
   /**
    * 更新每日任务
    */
-  switch1Change: function (e) {
-    const {
-      task,
-      taskState,
-      taskStateName
-    } = e.currentTarget.dataset
-    let cm = this.data.rewardMap[taskStateName] ? Number(this.data.rewardMap[taskStateName]) : 0
-    let tm = taskState ? task.totalMoney - cm : task.totalMoney + cm
-    let ts = task.taskState
-    ts[taskStateName] = !taskState
-    this.setData({
-      changeInfo: {
-        id: task._id,
-        tm: tm,
-        ts: ts,
-      }
-    })
-    // 修改每日任务的状态
-    db.collection('dailyTask').doc(task._id).update({
-      data: {
-        taskState: ts,
-        totalMoney: tm,
-      },
-      success: (res) => {
-        let newDailyTask = this.data.dailyTask
-        const {
-          id,
-          tm,
-          ts
-        } = this.data.changeInfo
-        for (const ndt of newDailyTask) {
-          if (ndt._id === id) {
-            ndt.taskState = ts
-            ndt.totalMoney = tm
+  modifyPayState: function (e) {
+    console.log(e.currentTarget.dataset.countItem)
+    if (e.currentTarget.dataset.countItem) {
+      const {
+        _id: taskId,
+        userName,
+        totalMoney
+      } = e.currentTarget.dataset.countItem
+      if (taskId) {
+        console.log(taskId)
+        // 修改每日任务的状态
+        db.collection('dailyTask').doc(taskId).update({
+          data: {
+            hasPaied: true,
+          },
+          success: (res) => {
+            console.log(res)
+            let newRewardMap = {
+              ...this.data.rewardMap
+            }
+            if (newRewardMap[userName]) {
+              newRewardMap[userName] = newRewardMap[userName] - totalMoney
+            }
+
+            this.setData({
+              dailyTask: this.data.dailyTask.filter(x => {
+                return x._id !== taskId
+              }),
+              rewardMap: newRewardMap
+
+            })
+          },
+          fail: err => {
+            wx.showToast({
+              icon: 'none',
+              title: '修改记录失败'
+            })
           }
-        }
-        this.setData({
-          dailyTask: newDailyTask
-        })
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
         })
       }
-    })
+    }
+
   }
 })
