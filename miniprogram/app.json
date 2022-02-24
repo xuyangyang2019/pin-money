@@ -20,26 +20,26 @@
     "list": [
         {
             "pagePath": "pages/index/index",
-            "iconPath": "images/icon_component.png",
-            "selectedIconPath": "images/icon_component_HL.png",
+            "iconPath": "images/daily_task.png",
+            "selectedIconPath": "images/daily_task_select.png",
             "text": "每日任务"
         },
         {
             "pagePath": "pages/userList/userList",
-            "iconPath": "images/icon_API.png",
-            "selectedIconPath": "images/icon_API_HL.png",
+            "iconPath": "images/add_user.png",
+            "selectedIconPath": "images/add_user_select.png",
             "text": "用户管理"
         },
         {
             "pagePath": "pages/taskList/taskList",
-            "iconPath": "images/icon_API.png",
-            "selectedIconPath": "images/icon_API_HL.png",
+            "iconPath": "images/add_task.png",
+            "selectedIconPath": "images/add_task_select.png",
             "text": "任务管理"
         },
         {
             "pagePath": "pages/taskCount/taskCount",
-            "iconPath": "images/icon_API.png",
-            "selectedIconPath": "images/icon_API_HL.png",
+            "iconPath": "images/data_count.png",
+            "selectedIconPath": "images/data_count_select.png",
             "text": "任务统计"
         }
     ]
