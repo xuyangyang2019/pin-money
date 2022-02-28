@@ -18,11 +18,13 @@ exports.main = async (event, context) => {
         data: userList
     } = await db.collection('children').get()
 
-    let taskState = {}
-    taskList.forEach(x => {
-        taskState[x.name] = false
-    })
     for (const user of userList) {
+        let taskState = {}
+        taskList.forEach(x => {
+            if (x._openid === user._openid) {
+                taskState[x.name] = false
+            }
+        })
         let dd = {
             _openid: user._openid,
             userId: user._id,
