@@ -39,44 +39,41 @@
   border: solid #DFDFDF 1rpx;
 }
 
-.list-title-item1 {
-  padding: 10rpx;
-  width: 30%;
-  border-right: #DFDFDF solid 1rpx;
+
+.table {
+  border: 0px solid darkgray;
 }
 
-.list-title-item2 {
-  padding: 10rpx;
-  width: 70%;
-  border-right: #DFDFDF solid 1rpx;
-}
-
-.list-content {
-  height: 100%;
-  overflow: auto;
-  box-sizing: border-box;
-  border: solid #DFDFDF 1px;
-  border-top: none;
-}
-
-.itme-box {
+.tr {
   display: flex;
+  width: 100%;
+  justify-content: center;
+  min-height: 3rem;
   align-items: center;
-  border-bottom: #DFDFDF 1px solid;
 }
 
-.list-user-name {
-  width: 30%;
-  padding: 10rpx;
-  box-sizing: border-box;
-
+.td {
+  width: 50%;
+  justify-content: center;
+  text-align: center;
 }
 
-.list-task-states {
-  width: 70%;
-  padding: 10rpx;
-  box-sizing: border-box;
-  border-left: solid #DFDFDF 1px;
+.bg-w {
+  background: snow;
+}
+
+.bg-g {
+  background: #E6F3F9;
+}
+
+.th {
+  width: 50%;
+  justify-content: center;
+  background: green;
+  color: #fff;
+  display: flex;
+  height: 3rem;
+  align-items: center;
 }
 
 .list-task-state {

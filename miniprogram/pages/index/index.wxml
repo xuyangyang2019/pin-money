@@ -1,38 +1,35 @@
 <!--index.wxml-->
 <view class="home-view">
-  <!-- 用户列表 -->
-  <!-- <view class="user-list-content">
-      <view class="'user-item' {{currentUserId === item._id ? 'user-item-checked':''}}" wx:for="{{childrenList}}" wx:key="index">
-        <text class="user-name" data-user="{{item}}" bindtap="onChoseUser">{{item.name}}</text>
-      </view>
-    </view> -->
-
   <view wx:if="{{dailyTask.length === 0}}">请先添加任务和执行人</view>
-  <view wx:else class="home-content">
-    <!-- 任务列表 -->
-    <view class="task-list-content">
-      <view class="list-title">
-        <view class="list-title-item1">姓名</view>
-        <view class="list-title-item2">任务状态</view>
-      </view>
-      <scroll-view scroll-y="true" class="list-content">
-        <view class="itme-box" wx:for="{{dailyTask}}" wx:for-item="dt" wx:key="index">
-          <!-- 用户名 -->
-          <text class="list-user-name">{{dt.userName}}</text>
-
-          <!-- 任务状态 -->
-          <view class="list-task-states">
-            <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
-              <text class="user-name">{{index}}</text>
-              <view class="list-item operation-btn">
-                <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
-              </view>
+  <view class="table">
+    <view class="tr bg-w">
+      <view class="th">姓名</view>
+      <view class="th">任务状态</view>
+    </view>
+    <block wx:for="{{dailyTask}}" wx:key="index" wx:for-item="dt">
+      <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+        <view class="td">{{dt.userName}}</view>
+        <view class="td">
+          <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
+            <text class="user-name">{{index}}</text>
+            <view class="list-item operation-btn">
+              <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
             </view>
           </view>
-
         </view>
-      </scroll-view>
-    </view>
+      </view>
+      <view class="tr" wx:else>
+        <view class="td">{{dt.userName}}</view>
+        <view class="td">
+          <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
+            <text class="user-name">{{index}}</text>
+            <view class="list-item operation-btn">
+              <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
   </view>
 
   <!-- 上传图片 -->

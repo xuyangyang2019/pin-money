@@ -13,29 +13,27 @@
   </view>
 
   <!-- 任务列表 -->
-  <view class="task-list-content">
-
-    <view class="list-title">
-      <view class="list-title-item">名称</view>
-      <view class="list-title-item">奖励</view>
-      <view class="list-title-item">操作</view>
+  <view class="table">
+    <view class="tr bg-w">
+      <view class="th">名称</view>
+      <view class="th">奖励</view>
+      <view class="th">操作</view>
     </view>
-
-    <scroll-view scroll-y="true" class="list-content">
-      <view class="itme-box" wx:for="{{taskList}}" wx:key="index">
-        <text class="list-item">{{item.name}}</text>
-        <text class="list-item">{{item.reward}}</text>
-        <view class="list-item operation-btn">
+    <block wx:for="{{taskList}}" wx:key="index">
+      <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+        <view class="td">{{item.name}}</view>
+        <view class="td">{{item.reward}}</view>
+        <view class="td">
           <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
         </view>
       </view>
-    </scroll-view>
+      <view class="tr" wx:else>
+        <view class="td">{{item.name}}</view>
+        <view class="td">{{item.reward}}</view>
+        <view class="td">
+          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
+        </view>
+      </view>
+    </block>
   </view>
-
-
-
-  <!-- <view class="list-content">
-  </view> -->
-
-
 </view>
