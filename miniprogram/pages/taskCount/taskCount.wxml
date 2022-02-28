@@ -43,17 +43,18 @@
   <view wx:if="{{dailyTask.length > 0}}" class="count-tip">信息汇总</view>
   <view wx:if="{{dailyTask.length > 0}}" class="table">
     <view class="tr bg-w">
-      <view class="th">姓名</view>
-      <view class="th">总数</view>
+      <view class="th th2">姓名</view>
+      <view class="th th2">总数</view>
     </view>
-    <block wx:for="{{rewardMap}}" wx:for-item="rm" wx:key="index" wx:for-index='idx'>
+
+    <block wx:for="{{rewardList}}" wx:for-item="name" wx:key="index">
       <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-        <view class="td">{{idx}}</view>
-        <view class="td">{{rm}}</view>
+        <view class="td td2">{{name}}</view>
+        <view class="td td2">{{rewardMap[name]}}</view>
       </view>
       <view class="tr" wx:else>
-        <view class="td">{{idx}}</view>
-        <view class="td">{{rm}}</view>
+        <view class="td td2">{{name}}</view>
+        <view class="td td2">{{rewardMap[name]}}</view>
       </view>
     </block>
   </view>

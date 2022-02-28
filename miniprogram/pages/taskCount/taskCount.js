@@ -8,6 +8,7 @@ Page({
     dailyTask: [],
     changeInfo: {},
     rewardMap: {},
+    rewardList: [],
   },
 
   onLoad: function () {
@@ -52,7 +53,8 @@ Page({
         }
         this.setData({
           dailyTask: dailyTask,
-          rewardMap: rewardMap
+          rewardMap: rewardMap,
+          rewardList: Object.keys(rewardMap),
         })
       },
       fail: err => {

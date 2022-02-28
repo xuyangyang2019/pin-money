@@ -46,3 +46,8 @@
   height: 3rem;
   align-items: center;
 }
+
+.th2,
+.td2 {
+  width: 50%;
+}
