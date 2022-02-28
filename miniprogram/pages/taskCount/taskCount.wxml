@@ -2,9 +2,12 @@
 <view class="home-view">
   <view style="margin:20rpx 0;">
     <text class="count-tip">数据类型：</text>
-    <text style="color: green;;">待处理</text>
-    <!-- 已支付 -->
-    <!-- 全部 -->
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}" wx:key="index">
+        <radio value="{{item.value}}" checked="{{item.checked}}" />
+        {{item.name}}
+      </label>
+    </radio-group>
   </view>
 
   <view class="count-tip">详细信息</view>
@@ -21,7 +24,7 @@
         <view class="td">{{dt.timeNow}}</view>
         <view class="td">{{dt.totalMoney}}</view>
         <view class="td">
-          <text class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
+          <text wx:if="{{!dt.hasPaied}}" class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
         </view>
       </view>
       <view class="tr" wx:else>
@@ -29,7 +32,7 @@
         <view class="td">{{dt.timeNow}}</view>
         <view class="td">{{dt.totalMoney}}</view>
         <view class="td">
-          <text class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
+          <text wx:if="{{!dt.hasPaied}}" class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
         </view>
       </view>
     </block>

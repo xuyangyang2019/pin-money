@@ -9,6 +9,20 @@ Page({
     changeInfo: {},
     rewardMap: {},
     rewardList: [],
+    items: [{
+        name: '待支付',
+        value: '0',
+        checked: 'true'
+      },
+      {
+        name: '已支付',
+        value: '1',
+      },
+      {
+        name: '全部',
+        value: '2'
+      },
+    ]
   },
 
   onLoad: function () {
@@ -30,14 +44,28 @@ Page({
   /**
    * 查询每日任务
    */
-  onQueryDailyTask: function () {
+  onQueryDailyTask: function (flagInt) {
     const _ = db.command
     // 查下所有的没有支付的任务
+    let queryComment = {}
+    if (flagInt === '1') {
+      queryComment = {
+        hasPaied: true,
+        totalMoney: _.gt(0)
+      }
+    } else if (flagInt === '2') {
+      queryComment = {}
+    } else {
+      queryComment = {
+        hasPaied: false,
+        totalMoney: _.gt(0)
+      }
+    }
+    console.log(queryComment)
     db.collection('dailyTask').where({
       _openid: app.globalData.openid,
-      hasPaied: false,
-      totalMoney: _.gt(0)
-    }).get({
+      ...queryComment
+    }).orderBy('belongTime', 'desc').get({
       success: res => {
         console.log('[数据库] [查询记录] 成功: ', res)
         let dailyTask = res.data
@@ -65,7 +93,6 @@ Page({
       }
     })
   },
-
 
   /**
    * 更新每日任务
@@ -111,6 +138,10 @@ Page({
         })
       }
     }
-
+  },
+  // 查询条件
+  radioChange(e) {
+    // console.log('radio发生change事件，携带value值为：', e.detail.value)
+    this.onQueryDailyTask(e.detail.value)
   }
 })
