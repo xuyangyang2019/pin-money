@@ -17,17 +17,17 @@
       <view class="th">名称</view>
       <view class="th">操作</view>
     </view>
-    <block wx:for="{{taskList}}" wx:key="index">
+    <block wx:for="{{userList}}" wx:key="index">
       <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
         <view class="td">{{item.name}}</view>
         <view class="td">
-          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
+          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
         </view>
       </view>
       <view class="tr" wx:else>
         <view class="td">{{item.name}}</view>
         <view class="td">
-          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
+          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
         </view>
       </view>
     </block>
