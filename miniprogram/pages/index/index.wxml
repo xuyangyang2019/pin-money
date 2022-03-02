@@ -1,6 +1,11 @@
 <!--index.wxml-->
 <view class="home-view">
-  <view wx:if="{{dailyTask.length === 0}}">请先添加任务和执行人</view>
+  <picker style="padding: 20rpx 0;" mode="date" value="{{date}}" start="2022-01-01" end="{{endTime}}" bindchange="bindDateChange">
+    <view class="picker">
+      设置时间: {{date}}
+    </view>
+  </picker>
+
   <view class="table">
     <view class="tr bg-w">
       <view class="th">姓名</view>
@@ -30,7 +35,9 @@
         </view>
       </view>
     </block>
+    <view class="tr" wx:if="{{dailyTask.length === 0}}"> 没有数据 </view>
   </view>
+
 
   <!-- 上传图片 -->
   <!-- <view class="uploader">

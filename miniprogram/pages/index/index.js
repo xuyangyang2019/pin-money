@@ -8,6 +8,8 @@ Page({
     dailyTask: [],
     changeInfo: {},
     rewardMap: {},
+    date: '',
+    endTime: new Date().getTime()
   },
 
   onLoad: function () {
@@ -42,15 +44,22 @@ Page({
   onShow: function () {
     this.rewardFunction()
     this.onQueryDailyTask()
+    this.setData({
+      date: new Date().toLocaleDateString().replace(/\//g, '-')
+    })
+
   },
 
   /**
    * 查询每日任务
    */
-  onQueryDailyTask: function () {
+  onQueryDailyTask: function (bt = null) {
+    if (!bt) {
+      bt = new Date(new Date().toLocaleDateString()).getTime()
+    }
     db.collection('dailyTask').where({
       _openid: app.globalData.openid,
-      belongTime: new Date(new Date().toLocaleDateString()).getTime()
+      belongTime: bt
     }).get({
       success: res => {
         // console.log('[数据库] [查询记录] 成功: ', res)
@@ -87,6 +96,15 @@ Page({
         // })
         console.error('[云函数] [sum] 调用失败：', err)
       }
+    })
+  },
+
+  bindDateChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    if (!e.detail.value) return
+    this.onQueryDailyTask(new Date(new Date(e.detail.value).toLocaleDateString()).getTime())
+    this.setData({
+      date: e.detail.value
     })
   },
 
