@@ -1,8 +1,8 @@
 <!--index.wxml-->
 <view class="home-view">
-  <picker style="padding: 20rpx 0;" mode="date" value="{{date}}" start="2022-01-01" end="{{endTime}}" bindchange="bindDateChange">
+  <picker style="padding: 20rpx 0;" mode="date" value="{{currentDate}}" start="2022-01-01" end="{{endTime}}" bindchange="bindDateChange">
     <view class="picker">
-      设置时间: {{date}}
+      设置时间: {{currentDate}}
     </view>
   </picker>
 

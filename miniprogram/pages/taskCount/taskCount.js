@@ -72,16 +72,16 @@ Page({
         let rewardMap = {}
         for (const dt of dailyTask) {
           let bt = new Date(dt.belongTime)
-          // let yy = bt.getFullYear()
-          // let mm = bt.getMonth()+1
-          // let dd = bt.getDate()
-          // dt.timeNow = yy + '/' + mm + '/' + dd
+          let yy = bt.getFullYear()
+          let mm = bt.getMonth()+1
+          let dd = bt.getDate()
+          dt.timeNow = yy + '/' + mm + '/' + dd
           // dt.timeNow = bt.toLocaleDateString('en-US')
-          dt.timeNow = bt.toLocaleDateString('zh-CN', {
-            year: '2-digit',
-            month: '2-digit',
-            day: '2-digit'
-          })
+          // dt.timeNow = bt.toLocaleDateString('zh-CN', {
+          //   year: '2-digit',
+          //   month: '2-digit',
+          //   day: '2-digit'
+          // })
           let reward = parseInt(dt.totalMoney, 10) || 0
           if (rewardMap[dt.userName]) {
             rewardMap[dt.userName] = rewardMap[dt.userName] + reward

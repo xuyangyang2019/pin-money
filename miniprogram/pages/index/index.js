@@ -8,8 +8,8 @@ Page({
     dailyTask: [],
     changeInfo: {},
     rewardMap: {},
-    date: '',
-    endTime: new Date().getTime()
+    currentDate: '',
+    endTime: '2122-01-01'
   },
 
   onLoad: function () {
@@ -44,8 +44,12 @@ Page({
   onShow: function () {
     this.rewardFunction()
     this.onQueryDailyTask()
+    let bt = new Date()
+    let yy = bt.getFullYear()
+    let mm = bt.getMonth()+1
+    let dd = bt.getDate()
     this.setData({
-      date: new Date().toLocaleDateString().replace(/\//g, '-')
+      currentDate: yy + '-' + mm + '-' + dd
     })
 
   },
@@ -104,7 +108,7 @@ Page({
     if (!e.detail.value) return
     this.onQueryDailyTask(new Date(new Date(e.detail.value).toLocaleDateString()).getTime())
     this.setData({
-      date: e.detail.value
+      currentDate: e.detail.value
     })
   },
 
