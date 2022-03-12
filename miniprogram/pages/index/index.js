@@ -6,8 +6,9 @@ const db = wx.cloud.database()
 Page({
   data: {
     dailyTask: [],
-    changeInfo: {},
     rewardMap: {},
+    changeInfo: {},
+    changeFlag: true,
     currentDate: '',
     endTime: '2122-01-01'
   },
@@ -46,7 +47,7 @@ Page({
     this.onQueryDailyTask()
     let bt = new Date()
     let yy = bt.getFullYear()
-    let mm = bt.getMonth()+1
+    let mm = bt.getMonth() + 1
     let dd = bt.getDate()
     this.setData({
       currentDate: yy + '-' + mm + '-' + dd
@@ -68,7 +69,8 @@ Page({
       success: res => {
         // console.log('[数据库] [查询记录] 成功: ', res)
         this.setData({
-          dailyTask: res.data
+          dailyTask: res.data,
+          changeFlag: true
         })
       },
       fail: err => {
@@ -116,52 +118,83 @@ Page({
    * 更新每日任务
    */
   switch1Change: function (e) {
+    if (!this.data.changeFlag) {
+      wx.showToast({
+        icon: 'loading',
+        title: '正在修改状态，请稍后再试！',
+        mask: true
+      })
+      return
+    }
     const {
       task,
       taskState,
       taskStateName
     } = e.currentTarget.dataset
-    let cm = this.data.rewardMap[taskStateName] ? Number(this.data.rewardMap[taskStateName]) : 0
-    let tm = taskState ? task.totalMoney - cm : task.totalMoney + cm
-    let ts = task.taskState
-    ts[taskStateName] = !taskState
-    this.setData({
-      changeInfo: {
-        id: task._id,
-        tm: tm,
-        ts: ts,
+    if (this.data.rewardMap[taskStateName]) {
+      // 当前任务对应的奖励
+      let currentReward = Number(this.data.rewardMap[taskStateName])
+      // 修改后的总奖励
+      let totalReward = task.totalMoney
+      if (taskState) {
+        totalReward = totalReward - currentReward
+      } else {
+        totalReward = totalReward + currentReward
       }
-    })
-    // 修改每日任务的状态
-    db.collection('dailyTask').doc(task._id).update({
-      data: {
-        taskState: ts,
-        totalMoney: tm,
-      },
-      success: (res) => {
-        let newDailyTask = this.data.dailyTask
-        const {
-          id,
-          tm,
-          ts
-        } = this.data.changeInfo
-        for (const ndt of newDailyTask) {
-          if (ndt._id === id) {
-            ndt.taskState = ts
-            ndt.totalMoney = tm
-          }
+      // let totalReward = taskState ? task.totalMoney - currentReward : task.totalMoney + currentReward
+
+      // 修改后的任务状态
+      let taskStates = task.taskState
+      taskStates[taskStateName] = !taskState
+
+      this.setData({
+        changeFlag: false
+        // changeInfo: {
+        //   id: task._id,
+        //   totalReward: totalReward,
+        //   taskStates: taskStates,
+        // }
+      })
+      // 修改每日任务的状态
+      db.collection('dailyTask').doc(task._id).update({
+        data: {
+          taskState: taskStates,
+          totalMoney: totalReward,
+        },
+        success: (res) => {
+          this.onQueryDailyTask()
+          // let newDailyTask = this.data.dailyTask
+          // const {
+          //   id,
+          //   totalReward,
+          //   taskStates
+          // } = this.data.changeInfo
+          // for (const ndt of newDailyTask) {
+          //   if (ndt._id === id) {
+          //     ndt.taskState = taskStates
+          //     ndt.totalMoney = totalReward
+          //   }
+          // }
+          // this.setData({
+          //   dailyTask: newDailyTask
+          // })
+        },
+        fail: (err) => {
+          this.onQueryDailyTask()
+          // wx.showToast({
+          //   icon: 'none',
+          //   title: '修改记录失败'
+          // })
         }
-        this.setData({
-          dailyTask: newDailyTask
-        })
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-      }
-    })
+      })
+    } else {
+      // 如果不知道reward就返回并重置状态
+      wx.showToast({
+        icon: 'none',
+        title: '数据加载不全，请稍后再试！'
+      })
+      this.onQueryDailyTask()
+    }
   },
 
   // 上传图片

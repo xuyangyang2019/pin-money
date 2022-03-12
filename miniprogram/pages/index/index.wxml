@@ -11,25 +11,25 @@
       <view class="th">姓名</view>
       <view class="th">任务状态</view>
     </view>
-    <block wx:for="{{dailyTask}}" wx:key="index" wx:for-item="dt">
+    <block wx:for="{{dailyTask}}" wx:key="index" wx:for-item="dti">
       <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-        <view class="td">{{dt.userName}}</view>
+        <view class="td">{{dti.userName}}</view>
         <view class="td">
-          <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
+          <view class="list-task-state" wx:for="{{dti.taskState}}" wx:for-item="tsi" wx:key="index">
             <text class="user-name">{{index}}</text>
             <view class="list-item operation-btn">
-              <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+              <switch checked="{{tsi}}" data-task="{{dti}}" data-task-state="{{tsi}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
             </view>
           </view>
         </view>
       </view>
       <view class="tr" wx:else>
-        <view class="td">{{dt.userName}}</view>
+        <view class="td">{{dti.userName}}</view>
         <view class="td">
-          <view class="list-task-state" wx:for="{{dt.taskState}}" wx:for-item="ts" wx:key="index">
+          <view class="list-task-state" wx:for="{{dti.taskState}}" wx:for-item="tsi" wx:key="index">
             <text class="user-name">{{index}}</text>
             <view class="list-item operation-btn">
-              <switch checked="{{ts}}" data-task="{{dt}}" data-task-state="{{ts}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+              <switch checked="{{tsi}}" data-task="{{dti}}" data-task-state="{{tsi}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
             </view>
           </view>
         </view>
