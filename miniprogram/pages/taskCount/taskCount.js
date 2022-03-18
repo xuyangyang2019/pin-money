@@ -50,15 +50,15 @@ Page({
     let queryComment = {}
     if (flagInt === '1') {
       queryComment = {
-        hasPaied: true,
-        totalMoney: _.gt(0)
+        hasPaied: true
+        // totalMoney: _.gt(0)
       }
     } else if (flagInt === '2') {
       queryComment = {}
     } else {
       queryComment = {
         hasPaied: false,
-        totalMoney: _.gt(0)
+        // totalMoney: _.gt(0)
       }
     }
     console.log(queryComment)
@@ -73,7 +73,7 @@ Page({
         for (const dt of dailyTask) {
           let bt = new Date(dt.belongTime)
           let yy = bt.getFullYear()
-          let mm = bt.getMonth()+1
+          let mm = bt.getMonth() + 1
           let dd = bt.getDate()
           dt.timeNow = yy + '/' + mm + '/' + dd
           // dt.timeNow = bt.toLocaleDateString('en-US')
