@@ -60,8 +60,15 @@ Page({
    */
   onQueryDailyTask: function (bt = null) {
     if (!bt) {
-      bt = new Date(new Date().toLocaleDateString()).getTime()
+      if (this.data.currentDate) {
+        console.log('查询每日任务', this.data.currentDate)
+        bt = new Date(new Date(this.data.currentDate).toLocaleDateString()).getTime()
+      } else {
+        bt = new Date(new Date().toLocaleDateString()).getTime()
+      }
     }
+    console.log('查询每日任务', bt)
+
     db.collection('dailyTask').where({
       _openid: app.globalData.openid,
       belongTime: bt
@@ -108,10 +115,10 @@ Page({
   bindDateChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     if (!e.detail.value) return
-    this.onQueryDailyTask(new Date(new Date(e.detail.value).toLocaleDateString()).getTime())
     this.setData({
       currentDate: e.detail.value
     })
+    this.onQueryDailyTask(new Date(new Date(e.detail.value).toLocaleDateString()).getTime())
   },
 
   /**
@@ -162,29 +169,11 @@ Page({
           totalMoney: totalReward,
         },
         success: (res) => {
+          // this.onQueryDailyTask(new Date(new Date(e.detail.value).toLocaleDateString()).getTime())
           this.onQueryDailyTask()
-          // let newDailyTask = this.data.dailyTask
-          // const {
-          //   id,
-          //   totalReward,
-          //   taskStates
-          // } = this.data.changeInfo
-          // for (const ndt of newDailyTask) {
-          //   if (ndt._id === id) {
-          //     ndt.taskState = taskStates
-          //     ndt.totalMoney = totalReward
-          //   }
-          // }
-          // this.setData({
-          //   dailyTask: newDailyTask
-          // })
         },
         fail: (err) => {
           this.onQueryDailyTask()
-          // wx.showToast({
-          //   icon: 'none',
-          //   title: '修改记录失败'
-          // })
         }
       })
     } else {
