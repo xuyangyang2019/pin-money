@@ -22,7 +22,20 @@ Page({
         name: '全部',
         value: '2'
       },
-    ]
+    ],
+    defaultOptionBusiness: {
+      id: '0',
+      name: '请选择'
+    },
+    optionsBusiness: [{
+        city_id: '1',
+        city_name: '111'
+      },
+      {
+        city_id: '2',
+        city_name: '2222'
+      }
+    ],
   },
 
   onLoad: function () {
@@ -157,5 +170,9 @@ Page({
   radioChange(e) {
     // console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.onQueryDailyTask(e.detail.value)
+  },
+  selectChange(e) {
+    console.log('selectChange:', e.detail)
+    // this.onQueryDailyTask(e.detail.value)
   }
 })

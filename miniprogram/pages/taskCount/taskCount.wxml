@@ -1,5 +1,9 @@
 <!--index.wxml-->
 <view class="home-view">
+
+  <!-- 自定义选择select组件 -->
+  <select class="fontColor" defaultOption="{{defaultOptionBusiness}}" options="{{optionsBusiness}}" key="city_id" text="city_name" bind:change="selectChange"></select>
+
   <view style="margin:20rpx 0;">
     <text class="count-tip">数据类型：</text>
     <radio-group class="radio-group" bindchange="radioChange">
