@@ -23,17 +23,22 @@ Page({
         value: '2'
       },
     ],
-    defaultOptionBusiness: {
-      id: '0',
-      name: '请选择'
+    defaultOption: {
+      id: '1',
+      name: '待支付'
     },
-    optionsBusiness: [{
-        city_id: '1',
-        city_name: '111'
+    selectOptions: [
+      {
+        value: '1',
+        label: '待支付'
       },
       {
-        city_id: '2',
-        city_name: '2222'
+        value: '2',
+        label: '已支付'
+      },
+      {
+        value: '3',
+        label: '全部'
       }
     ],
   },
