@@ -20,6 +20,10 @@ Page({
       })
       return
     }
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    })
     // 查看是否授权
     // wx.getSetting({
     //   success: res => {

@@ -21,6 +21,10 @@ Page({
         openid: app.globalData.openid
       })
     }
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    })
   },
 
   /**

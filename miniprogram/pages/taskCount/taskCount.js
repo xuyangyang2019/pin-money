@@ -26,6 +26,10 @@ Page({
   },
 
   onLoad: function () {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    })
     // if (!wx.cloud) {
     //   wx.redirectTo({
     //     url: '../chooseLib/chooseLib',
