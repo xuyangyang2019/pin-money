@@ -17,7 +17,7 @@
     position: absolute;
     display: block;
     right: 16rpx;
-    top: 28rpx;
+    top: 16rpx;
     content: '';
     width: 0;
     height: 0;
@@ -55,4 +55,8 @@
 .option:last-child {
     border-bottom: none;
     /* padding-bottom: 0; */
+}
+
+.current-option{
+    color: burlywood;
 }

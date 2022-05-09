@@ -3,9 +3,9 @@
         <text class="current-name">{{current.name}}</text>
     </view>
     <view class="option-list" wx:if="{{isShow}}" catchtap="optionTap">
-        <text class="option" data-id="{{defaultOption.id}}" data-name="{{defaultOption.name}}">{{defaultOption.name}}
-        </text>
-        <text class="option" wx:for="{{result}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}">{{item.name}}
+        <text class="option" wx:for="{{result}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}">
+            <text wx:if="{{current.id === item.id }}" class="current-option">{{item.name}} </text>
+            <text wx:else>{{item.name}} </text>
         </text>
     </view>
 </view>
