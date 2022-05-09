@@ -4,12 +4,7 @@
     "pages/userList/userList",
     "pages/taskList/taskList",
     "pages/taskCount/taskCount",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib"
+    "pages/storageConsole/storageConsole"
   ],
   "tabBar": {
     "custom": false,
@@ -17,33 +12,32 @@
     "selectedColor": "#3cc51f",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
-    "list": [
-        {
-            "pagePath": "pages/index/index",
-            "iconPath": "images/daily_task.png",
-            "selectedIconPath": "images/daily_task_select.png",
-            "text": "每日任务"
-        },
-        {
-            "pagePath": "pages/userList/userList",
-            "iconPath": "images/add_user.png",
-            "selectedIconPath": "images/add_user_select.png",
-            "text": "用户管理"
-        },
-        {
-            "pagePath": "pages/taskList/taskList",
-            "iconPath": "images/add_task.png",
-            "selectedIconPath": "images/add_task_select.png",
-            "text": "任务管理"
-        },
-        {
-            "pagePath": "pages/taskCount/taskCount",
-            "iconPath": "images/data_count.png",
-            "selectedIconPath": "images/data_count_select.png",
-            "text": "任务统计"
-        }
+    "list": [{
+        "pagePath": "pages/index/index",
+        "iconPath": "images/daily_task.png",
+        "selectedIconPath": "images/daily_task_select.png",
+        "text": "每日任务"
+      },
+      {
+        "pagePath": "pages/userList/userList",
+        "iconPath": "images/add_user.png",
+        "selectedIconPath": "images/add_user_select.png",
+        "text": "用户管理"
+      },
+      {
+        "pagePath": "pages/taskList/taskList",
+        "iconPath": "images/add_task.png",
+        "selectedIconPath": "images/add_task_select.png",
+        "text": "任务管理"
+      },
+      {
+        "pagePath": "pages/taskCount/taskCount",
+        "iconPath": "images/data_count.png",
+        "selectedIconPath": "images/data_count_select.png",
+        "text": "任务统计"
+      }
     ]
-},
+  },
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
