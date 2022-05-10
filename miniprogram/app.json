@@ -8,33 +8,33 @@
   ],
   "tabBar": {
     "custom": false,
-    "color": "#7A7E83",
-    "selectedColor": "#3cc51f",
+    "color": "#e6e6e6",
+    "selectedColor": "#1296db",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [{
         "pagePath": "pages/index/index",
-        "iconPath": "images/daily_task.png",
-        "selectedIconPath": "images/daily_task_select.png",
+        "iconPath": "images/day.png",
+        "selectedIconPath": "images/day_active.png",
         "text": "每日任务"
       },
       {
         "pagePath": "pages/userList/userList",
         "iconPath": "images/add_user.png",
-        "selectedIconPath": "images/add_user_select.png",
+        "selectedIconPath": "images/add_user_active.png",
         "text": "用户管理"
       },
       {
         "pagePath": "pages/taskList/taskList",
-        "iconPath": "images/add_task.png",
-        "selectedIconPath": "images/add_task_select.png",
+        "iconPath": "images/task.png",
+        "selectedIconPath": "images/task_active.png",
         "text": "任务管理"
       },
       {
         "pagePath": "pages/taskCount/taskCount",
-        "iconPath": "images/data_count.png",
-        "selectedIconPath": "images/data_count_select.png",
-        "text": "任务统计"
+        "iconPath": "images/data.png",
+        "selectedIconPath": "images/data_active.png",
+        "text": "数据统计"
       }
     ]
   },
