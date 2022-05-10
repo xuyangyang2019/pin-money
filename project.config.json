@@ -13,9 +13,9 @@
         "checkSiteMap": false,
         "uploadWithSourceMap": true,
         "compileHotReLoad": false,
-        "useMultiFrameRuntime": false,
-        "useApiHook": false,
-        "useApiHostProcess": false,
+        "useMultiFrameRuntime": true,
+        "useApiHook": true,
+        "useApiHostProcess": true,
         "babelSetting": {
             "ignore": [],
             "disablePlugins": [],
@@ -30,33 +30,33 @@
         "minifyWXML": true,
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
-        "ignoreUploadUnusedFiles": true
+        "ignoreUploadUnusedFiles": true,
+        "useStaticServer": true
     },
     "appid": "wx2b5fb19e349e588c",
     "projectname": "pin-money",
-    "libVersion": "2.2.5",
-    "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+    "libVersion": "2.21.3",
+    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
     "condition": {
-        "search": {
-            "list": []
-        },
-        "conversation": {
-            "list": []
-        },
-        "plugin": {
-            "list": []
-        },
-        "game": {
-            "list": []
-        },
         "miniprogram": {
             "list": [
                 {
-                    "id": -1,
                     "name": "db guide",
-                    "pathName": "pages/databaseGuide/databaseGuide"
+                    "pathName": "pages/databaseGuide/databaseGuide",
+                    "query": ""
                 }
             ]
         }
-    }
+    },
+    "compileType": "miniprogram",
+    "srcMiniprogramRoot": "miniprogram/",
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    },
+    "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
 }
