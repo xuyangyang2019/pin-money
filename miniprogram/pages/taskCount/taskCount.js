@@ -5,10 +5,13 @@ const db = wx.cloud.database()
 
 Page({
     data: {
+        userList: [], // 用户列表
+        userMap: {}, // 用户id-name对照
+        payedMap: {}, // 已支付的奖励
+        noPayMap: {}, // 未支付的奖励
+
         dailyTask: [],
         changeInfo: {},
-        rewardMap: {},
-        rewardList: [],
         defaultOption: {
             id: '1',
             name: '待支付'
@@ -27,19 +30,56 @@ Page({
             }
         ],
     },
-
     onLoad: function () {
         wx.showShareMenu({
             withShareTicket: true,
             menus: ['shareAppMessage', 'shareTimeline']
         })
     },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
     onShow: function () {
-        this.onQueryDailyTask()
+        // 查询统计信息
+        this.rewardFunction()
+        // 查询详细信息
+        // this.onQueryDailyTask()
+    },
+    onReachBottom: function () {
+        console.log('到底了')
+        // if (this.data.curpage <= this.data.count) { //这里是为了当前页数大于小于总页数，否则会一直刷新
+        //     var curpage = this.data.curpage * 1 + 1 //上滑一次就加载下一页 在当前页数加一  就是加载下一页
+        //     this.setData({
+        //         curpage: curpage //更新data重的页数
+        //     })
+        //     this.getList(); //再次调用（获取下一页的数据）
+        // } else {
+        //     wx.showToast({
+        //         title: '暂无更多数据', //如果当前页数大于总页数则不会刷新并显示提示
+        //         icon: "none"
+        //     })
+        // }
+    },
+
+    // 统计信息
+    rewardFunction() {
+        wx.cloud.callFunction({
+            name: 'sum',
+            data: {},
+            success: res => {
+                console.log(res)
+                this.setData({
+                    userList: res.result.userList,
+                    userMap: res.result.userMap,
+                    payedMap: res.result.payedMap,
+                    noPayMap: res.result.noPayMap
+                })
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'warning',
+                    title: '[云函数] [sum] 调用失败',
+                })
+                console.error('[云函数] [sum] 调用失败：', err)
+            }
+        })
     },
 
     /**
@@ -70,7 +110,6 @@ Page({
             success: res => {
                 console.log('[数据库] [查询记录] 成功: ', res)
                 let dailyTask = res.data
-                let rewardMap = {}
                 for (const dt of dailyTask) {
                     let bt = new Date(dt.belongTime)
                     let yy = bt.getFullYear()
@@ -78,16 +117,9 @@ Page({
                     let dd = bt.getDate()
                     dt.timeNow = yy + '/' + mm + '/' + dd
                     let reward = parseInt(dt.totalMoney, 10) || 0
-                    if (rewardMap[dt.userName]) {
-                        rewardMap[dt.userName] = rewardMap[dt.userName] + reward
-                    } else {
-                        rewardMap[dt.userName] = reward
-                    }
                 }
                 this.setData({
                     dailyTask: dailyTask,
-                    rewardMap: rewardMap,
-                    rewardList: Object.keys(rewardMap),
                 })
             },
             fail: err => {
@@ -119,9 +151,6 @@ Page({
                     },
                     success: (res) => {
                         console.log(res)
-                        let newRewardMap = {
-                            ...this.data.rewardMap
-                        }
                         if (newRewardMap[userName]) {
                             newRewardMap[userName] = newRewardMap[userName] - totalMoney
                         }
@@ -130,8 +159,6 @@ Page({
                             dailyTask: this.data.dailyTask.filter(x => {
                                 return x._id !== taskId
                             }),
-                            rewardMap: newRewardMap
-
                         })
                     },
                     fail: err => {
@@ -144,11 +171,6 @@ Page({
             }
         }
     },
-    //   // 查询条件
-    //   radioChange(e) {
-    //     // console.log('radio发生change事件，携带value值为：', e.detail.value)
-    //     this.onQueryDailyTask(e.detail.value)
-    //   },
     // 数据类型变更
     selectChange(e) {
         console.log('selectChange:', e.detail)

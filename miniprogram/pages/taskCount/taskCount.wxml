@@ -5,15 +5,27 @@
     <text class="count-tip">数据类型：</text>
     <select class="fontColor" defaultOption="{{defaultOption}}" options="{{selectOptions}}" key="value" text="label" bind:change="selectChange"></select>
 
-    <!-- <view style="margin:20rpx 0;">
-    <text class="count-tip">数据类型：</text>
-    <radio-group class="radio-group" bindchange="radioChange">
-      <label class="radio" wx:for="{{items}}" wx:key="index">
-        <radio value="{{item.value}}" checked="{{item.checked}}" />
-        {{item.name}}
-      </label>
-    </radio-group>
-  </view> -->
+    <view class="count-tip">信息汇总</view>
+    <view class="table">
+        <view class="tr bg-w">
+            <view class="th th2">姓名</view>
+            <view class="th th2">已支付</view>
+            <view class="th th2">未支付</view>
+        </view>
+        <block wx:for="{{userList}}" wx:for-item="userId" wx:key="index">
+            <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+                <view class="td td2">{{userMap[userId]}}</view>
+                <view class="td td2">{{payedMap[userId]}}</view>
+                <view class="td td2">{{noPayMap[userId]}}</view>
+            </view>
+            <view class="tr" wx:else>
+                <view class="td td2">{{userMap[userId]}}</view>
+                <view class="td td2">{{payedMap[userId]}}</view>
+                <view class="td td2">{{noPayMap[userId]}}</view>
+            </view>
+        </block>
+    </view>
+
 
     <view class="count-tip">详细信息</view>
     <view class="table">
@@ -48,22 +60,5 @@
         </block>
     </view>
 
-    <view wx:if="{{dailyTask.length > 0}}" class="count-tip">信息汇总</view>
-    <view wx:if="{{dailyTask.length > 0}}" class="table">
-        <view class="tr bg-w">
-            <view class="th th2">姓名</view>
-            <view class="th th2">总数</view>
-        </view>
 
-        <block wx:for="{{rewardList}}" wx:for-item="name" wx:key="index">
-            <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-                <view class="td td2">{{name}}</view>
-                <view class="td td2">{{rewardMap[name]}}</view>
-            </view>
-            <view class="tr" wx:else>
-                <view class="td td2">{{name}}</view>
-                <view class="td td2">{{rewardMap[name]}}</view>
-            </view>
-        </block>
-    </view>
 </view>
