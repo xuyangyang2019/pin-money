@@ -58,6 +58,6 @@
     /* padding-bottom: 0; */
 }
 
-.current-option{
+.current-option {
     color: burlywood;
 }

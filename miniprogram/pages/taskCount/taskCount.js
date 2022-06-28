@@ -10,12 +10,11 @@ Page({
         payedMap: {}, // 已支付的奖励
         noPayMap: {}, // 未支付的奖励
 
-        dailyTask: [],
-        changeInfo: {},
+        dailyTask: [], // 信息列表
         defaultOption: {
             id: '3',
             name: '全部'
-        },
+        }, // 默认展示全部
         selectOptions: [{
                 value: '1',
                 label: '待支付'
@@ -28,7 +27,17 @@ Page({
                 value: '3',
                 label: '全部'
             }
-        ],
+        ], // 信息类型
+        defaultUser: {
+            userId: '',
+            userName: '全部'
+        },
+        userOptions: [{
+            userId: '',
+            userName: '全部'
+        }],
+        currentType: '', // 当前信息类型
+        currentUserId: '' // 当前用户
     },
     onLoad: function () {
         wx.showShareMenu({
@@ -63,11 +72,27 @@ Page({
             name: 'sum',
             data: {},
             success: res => {
+                const {
+                    userList,
+                    userMap,
+                    payedMap,
+                    noPayMap
+                } = res.result
+                const userOptions = []
+                for (const key in userMap) {
+                    if (Object.hasOwnProperty.call(userMap, key)) {
+                        userOptions.push({
+                            userId: key,
+                            userName: userMap[key]
+                        })
+                    }
+                }
                 this.setData({
-                    userList: res.result.userList,
-                    userMap: res.result.userMap,
-                    payedMap: res.result.payedMap,
-                    noPayMap: res.result.noPayMap
+                    userList: userList,
+                    userMap: userMap,
+                    payedMap: payedMap,
+                    noPayMap: noPayMap,
+                    userOptions: this.data.userOptions.concat(userOptions)
                 })
             },
             fail: err => {
@@ -81,22 +106,23 @@ Page({
     },
 
     // 奖励列表
-    queryRewardList(flagInt) {
+    queryRewardList(typeFlag, userFlag) {
         const _ = db.command
         // 查下所有的没有支付的任务
         let queryComment = {}
 
-        if (flagInt === '1') {
+        if (typeFlag === '1') {
             queryComment.hasPaied = false
-        } else if (flagInt === '2') {
+        } else if (typeFlag === '2') {
             queryComment.hasPaied = true
             // queryComment = {
             //     hasPaied: true
             //     // totalMoney: _.gt(0)
             // }
         }
-        console.log(queryComment)
-
+        if (userFlag) {
+            queryComment.userId = userFlag
+        }
         db.collection('dailyTask')
             .where({
                 _openid: app.globalData.openid,
@@ -106,7 +132,6 @@ Page({
             .orderBy('userId', 'asc')
             .get({
                 success: res => {
-                    console.log('[数据库] [查询记录] 成功: ', res)
                     let dailyTask = res.data
                     for (const dt of dailyTask) {
                         let bt = new Date(dt.belongTime)
@@ -133,7 +158,6 @@ Page({
      * 更新每日任务
      */
     modifyPayState(e) {
-        console.log(e.currentTarget.dataset.countItem)
         if (e.currentTarget.dataset.countItem) {
             const {
                 _id: taskId,
@@ -141,14 +165,12 @@ Page({
                 totalMoney
             } = e.currentTarget.dataset.countItem
             if (taskId) {
-                console.log(taskId)
                 // 修改每日任务的状态
                 db.collection('dailyTask').doc(taskId).update({
                     data: {
                         hasPaied: true,
                     },
                     success: (res) => {
-                        console.log(res)
                         if (newRewardMap[userName]) {
                             newRewardMap[userName] = newRewardMap[userName] - totalMoney
                         }
@@ -171,9 +193,17 @@ Page({
     },
     // 数据类型变更
     selectChange(e) {
-        console.log('selectChange:', e.detail)
+        this.setData({
+            currentType: e.detail.id,
+        })
         if (e.detail && e.detail.id)
-            this.queryRewardList(e.detail.id)
-
+            this.queryRewardList(e.detail.id, this.data.currentUserId)
+    },
+    userChange(e) {
+        this.setData({
+            currentUserId: e.detail.id,
+        })
+        if (e.detail && e.detail.id)
+            this.queryRewardList(this.data.currentType, e.detail.id)
     }
 })

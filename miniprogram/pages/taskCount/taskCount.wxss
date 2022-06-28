@@ -1,59 +1,64 @@
 /**taskCount.wxss**/
 .home-view {
-  display: flex;
-  flex-direction: column;
-  padding: 20rpx;
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 20rpx;
+    box-sizing: border-box;
 }
 
 .count-tip {
-  padding: 20rpx 0;
-  font-weight: 600;
-  margin-right: 20rpx;
+    padding: 20rpx 0;
+    font-weight: 600;
+    margin-right: 20rpx;
 }
 
 .table {
-  border: 0px solid darkgray;
+    border: 0px solid darkgray;
 }
 
 .tr {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  height: 3rem;
-  align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    height: 3rem;
+    align-items: center;
 }
 
 .td {
-  width: 40%;
-  justify-content: center;
-  text-align: center;
+    width: 40%;
+    justify-content: center;
+    text-align: center;
 }
 
 .bg-w {
-  background: snow;
+    background: snow;
 }
 
 .bg-g {
-  background: #E6F3F9;
+    background: #E6F3F9;
 }
 
 .th {
-  width: 40%;
-  justify-content: center;
-  background: green;
-  color: #fff;
-  display: flex;
-  height: 3rem;
-  align-items: center;
+    width: 40%;
+    justify-content: center;
+    background: green;
+    color: #fff;
+    display: flex;
+    height: 3rem;
+    align-items: center;
 }
 
 .th2,
 .td2 {
-  width: 50%;
+    width: 50%;
 }
-.list-header{
+
+.list-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+}
+
+.fontColor+.fontColor {
+    margin-left: 20rpx;
 }
