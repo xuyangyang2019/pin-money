@@ -29,15 +29,14 @@ Page({
             }
         ], // 信息类型
         defaultUser: {
-            userId: '',
-            userName: '全部'
+            id: 'all',
+            name: '全部'
         },
-        userOptions: [{
-            userId: '',
-            userName: '全部'
-        }],
+        userOptions: [],
         currentType: '', // 当前信息类型
-        currentUserId: '' // 当前用户
+        currentUserId: '', // 当前用户
+        page: 0, // 页
+        limit: 14, // 限制
     },
     onLoad: function () {
         wx.showShareMenu({
@@ -52,19 +51,10 @@ Page({
         this.queryRewardList()
     },
     onReachBottom: function () {
-        console.log('到底了')
-        // if (this.data.curpage <= this.data.count) { //这里是为了当前页数大于小于总页数，否则会一直刷新
-        //     var curpage = this.data.curpage * 1 + 1 //上滑一次就加载下一页 在当前页数加一  就是加载下一页
-        //     this.setData({
-        //         curpage: curpage //更新data重的页数
-        //     })
-        //     this.getList(); //再次调用（获取下一页的数据）
-        // } else {
-        //     wx.showToast({
-        //         title: '暂无更多数据', //如果当前页数大于总页数则不会刷新并显示提示
-        //         icon: "none"
-        //     })
-        // }
+        this.setData({
+            page: this.data.page + 1, //更新data重的页数
+        })
+        this.queryRewardList(this.data.currentType, this.data.currentUserId)
     },
     // 统计信息
     rewardFunction() {
@@ -78,7 +68,10 @@ Page({
                     payedMap,
                     noPayMap
                 } = res.result
-                const userOptions = []
+                const userOptions = [{
+                    userId: 'all',
+                    userName: '全部'
+                }]
                 for (const key in userMap) {
                     if (Object.hasOwnProperty.call(userMap, key)) {
                         userOptions.push({
@@ -87,12 +80,13 @@ Page({
                         })
                     }
                 }
+                console.log(userOptions)
                 this.setData({
                     userList: userList,
                     userMap: userMap,
                     payedMap: payedMap,
                     noPayMap: noPayMap,
-                    userOptions: this.data.userOptions.concat(userOptions)
+                    userOptions: userOptions
                 })
             },
             fail: err => {
@@ -115,14 +109,12 @@ Page({
             queryComment.hasPaied = false
         } else if (typeFlag === '2') {
             queryComment.hasPaied = true
-            // queryComment = {
-            //     hasPaied: true
             //     // totalMoney: _.gt(0)
-            // }
         }
-        if (userFlag) {
+        if (userFlag && userFlag !== 'all') {
             queryComment.userId = userFlag
         }
+        // console.log(queryComment)
         db.collection('dailyTask')
             .where({
                 _openid: app.globalData.openid,
@@ -130,6 +122,8 @@ Page({
             })
             .orderBy('belongTime', 'desc')
             .orderBy('userId', 'asc')
+            .skip(this.data.page * this.data.limit)
+            .limit(this.data.limit)
             .get({
                 success: res => {
                     let dailyTask = res.data
@@ -141,8 +135,15 @@ Page({
                         dt.timeNow = yy + '/' + mm + '/' + dd
                         let reward = parseInt(dt.totalMoney, 10) || 0
                     }
+                    if (dailyTask.length === 0) {
+                        wx.showToast({
+                            title: '暂无更多数据', //如果当前页数大于总页数则不会刷新并显示提示
+                            icon: "none"
+                        })
+                    }
                     this.setData({
-                        dailyTask: dailyTask,
+                        // dailyTask: dailyTask,
+                        dailyTask: this.data.dailyTask.concat(dailyTask),
                     })
                 },
                 fail: err => {
@@ -195,6 +196,8 @@ Page({
     selectChange(e) {
         this.setData({
             currentType: e.detail.id,
+            dailyTask: [],
+            page: 0,
         })
         if (e.detail && e.detail.id)
             this.queryRewardList(e.detail.id, this.data.currentUserId)
@@ -202,8 +205,10 @@ Page({
     userChange(e) {
         this.setData({
             currentUserId: e.detail.id,
+            dailyTask: [],
+            page: 0,
         })
-        if (e.detail && e.detail.id)
+        if (e.detail)
             this.queryRewardList(this.data.currentType, e.detail.id)
     }
 })

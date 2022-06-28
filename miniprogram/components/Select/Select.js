@@ -59,7 +59,6 @@ Component({
         attached() {
             // 属性名称转换, 如果不是 { id: '', name:'' } 格式，则转为 { id: '', name:'' } 格式
             let result = []
-            console.log(this.data)
             if (this.data.key !== 'id' || this.data.text !== 'name') {
                 for (let item of this.data.options) {
                     let {

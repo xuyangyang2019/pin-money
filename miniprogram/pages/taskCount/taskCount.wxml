@@ -31,7 +31,7 @@
     <view class="list-header">
         <view class="count-tip">详细信息</view>
         <select class="fontColor" defaultOption="{{defaultOption}}" options="{{selectOptions}}" key="value" text="label" bind:change="selectChange"></select>
-        <select wx:if="{{userOptions.length > 1}}" class="fontColor" defaultOption="{{defaultUser}}" options="{{userOptions}}" key="userId" text="userName" bind:change="userChange"></select>
+        <select wx:if="{{userOptions.length > 0}}" class="fontColor" defaultOption="{{defaultUser}}" options="{{userOptions}}" key="userId" text="userName" bind:change="userChange"></select>
     </view>
     <view class="table">
         <view class="tr bg-w">
