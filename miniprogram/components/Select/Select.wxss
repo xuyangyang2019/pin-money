@@ -1,5 +1,6 @@
 .select-box {
     width: 100%;
+    min-width: 200rpx;
     position: relative;
     /* font-size: 30rpx; */
 }

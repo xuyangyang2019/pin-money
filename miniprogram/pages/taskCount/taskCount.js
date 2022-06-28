@@ -13,8 +13,8 @@ Page({
         dailyTask: [],
         changeInfo: {},
         defaultOption: {
-            id: '1',
-            name: '待支付'
+            id: '3',
+            name: '全部'
         },
         selectOptions: [{
                 value: '1',
@@ -40,7 +40,7 @@ Page({
         // 查询统计信息
         this.rewardFunction()
         // 查询详细信息
-        // this.onQueryDailyTask()
+        this.queryRewardList()
     },
     onReachBottom: function () {
         console.log('到底了')
@@ -57,14 +57,12 @@ Page({
         //     })
         // }
     },
-
     // 统计信息
     rewardFunction() {
         wx.cloud.callFunction({
             name: 'sum',
             data: {},
             success: res => {
-                console.log(res)
                 this.setData({
                     userList: res.result.userList,
                     userMap: res.result.userMap,
@@ -82,59 +80,59 @@ Page({
         })
     },
 
-    /**
-     * 查询每日任务
-     */
-    onQueryDailyTask: function (flagInt) {
+    // 奖励列表
+    queryRewardList(flagInt) {
         const _ = db.command
         // 查下所有的没有支付的任务
         let queryComment = {}
-        if (flagInt === '2') {
-            queryComment = {
-                hasPaied: true
-                // totalMoney: _.gt(0)
-            }
-        } else if (flagInt === '3') {
-            queryComment = {}
-        } else {
-            queryComment = {
-                hasPaied: false,
-                // totalMoney: _.gt(0)
-            }
+
+        if (flagInt === '1') {
+            queryComment.hasPaied = false
+        } else if (flagInt === '2') {
+            queryComment.hasPaied = true
+            // queryComment = {
+            //     hasPaied: true
+            //     // totalMoney: _.gt(0)
+            // }
         }
         console.log(queryComment)
-        db.collection('dailyTask').where({
-            _openid: app.globalData.openid,
-            ...queryComment
-        }).orderBy('belongTime', 'desc').get({
-            success: res => {
-                console.log('[数据库] [查询记录] 成功: ', res)
-                let dailyTask = res.data
-                for (const dt of dailyTask) {
-                    let bt = new Date(dt.belongTime)
-                    let yy = bt.getFullYear()
-                    let mm = bt.getMonth() + 1
-                    let dd = bt.getDate()
-                    dt.timeNow = yy + '/' + mm + '/' + dd
-                    let reward = parseInt(dt.totalMoney, 10) || 0
+
+        db.collection('dailyTask')
+            .where({
+                _openid: app.globalData.openid,
+                ...queryComment
+            })
+            .orderBy('belongTime', 'desc')
+            .orderBy('userId', 'asc')
+            .get({
+                success: res => {
+                    console.log('[数据库] [查询记录] 成功: ', res)
+                    let dailyTask = res.data
+                    for (const dt of dailyTask) {
+                        let bt = new Date(dt.belongTime)
+                        let yy = bt.getFullYear()
+                        let mm = bt.getMonth() + 1
+                        let dd = bt.getDate()
+                        dt.timeNow = yy + '/' + mm + '/' + dd
+                        let reward = parseInt(dt.totalMoney, 10) || 0
+                    }
+                    this.setData({
+                        dailyTask: dailyTask,
+                    })
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: '查询记录失败'
+                    })
                 }
-                this.setData({
-                    dailyTask: dailyTask,
-                })
-            },
-            fail: err => {
-                wx.showToast({
-                    icon: 'none',
-                    title: '查询记录失败'
-                })
-            }
-        })
+            })
     },
 
     /**
      * 更新每日任务
      */
-    modifyPayState: function (e) {
+    modifyPayState(e) {
         console.log(e.currentTarget.dataset.countItem)
         if (e.currentTarget.dataset.countItem) {
             const {
@@ -175,6 +173,7 @@ Page({
     selectChange(e) {
         console.log('selectChange:', e.detail)
         if (e.detail && e.detail.id)
-            this.onQueryDailyTask(e.detail.id)
+            this.queryRewardList(e.detail.id)
+
     }
 })

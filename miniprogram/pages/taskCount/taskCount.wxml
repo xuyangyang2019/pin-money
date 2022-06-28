@@ -1,11 +1,7 @@
 <!--taskCount.wxml-->
 <view class="home-view">
-
-    <!-- 自定义选择select组件 -->
-    <text class="count-tip">数据类型：</text>
-    <select class="fontColor" defaultOption="{{defaultOption}}" options="{{selectOptions}}" key="value" text="label" bind:change="selectChange"></select>
-
-    <view class="count-tip">信息汇总</view>
+    <!-- 总览 -->
+    <view class="count-tip">奖励总览</view>
     <view class="table">
         <view class="tr bg-w">
             <view class="th th2">姓名</view>
@@ -27,7 +23,15 @@
     </view>
 
 
-    <view class="count-tip">详细信息</view>
+    <!-- 自定义选择select组件 -->
+    <!-- <text class="count-tip">数据类型：</text>
+    <select class="fontColor" defaultOption="{{defaultOption}}" options="{{selectOptions}}" key="value" text="label" bind:change="selectChange"></select> -->
+
+    <!-- 每日任务列表 -->
+    <view class="list-header">
+        <view class="count-tip">详细信息</view>
+        <select class="fontColor" defaultOption="{{defaultOption}}" options="{{selectOptions}}" key="value" text="label" bind:change="selectChange"></select>
+    </view>
     <view class="table">
         <view class="tr bg-w">
             <view class="th">姓名</view>
@@ -42,6 +46,7 @@
                 <view class="td">{{dt.totalMoney}}</view>
                 <view class="td">
                     <text wx:if="{{!dt.hasPaied}}" class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
+                    <text style="color: gray;" wx:else class="list-item">已支付</text>
                 </view>
             </view>
             <view class="tr" wx:else>
@@ -50,6 +55,7 @@
                 <view class="td">{{dt.totalMoney}}</view>
                 <view class="td">
                     <text wx:if="{{!dt.hasPaied}}" class="list-item" data-count-item="{{dt}}" bindtap="modifyPayState">核销</text>
+                    <text style="color: gray;" wx:else class="list-item">已支付</text>
                 </view>
             </view>
         </block>

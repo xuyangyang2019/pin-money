@@ -9,6 +9,7 @@
 .count-tip {
   padding: 20rpx 0;
   font-weight: 600;
+  margin-right: 20rpx;
 }
 
 .table {
@@ -51,13 +52,8 @@
 .td2 {
   width: 50%;
 }
-
-/* .radio-group {
-  display: flex;
+.list-header{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
-
-.radio {
-  display: flex;
-  align-items: center;
-  padding: 10rpx;
-} */
