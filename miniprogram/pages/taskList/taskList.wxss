@@ -1,67 +1,69 @@
 .task-list {
-  display: flex;
-  flex-direction: column;
-  padding: 20rpx;
-  height: 100vh;
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 20rpx;
+    height: 100vh;
+    box-sizing: border-box;
 }
 
 .add-task-box {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
 }
 
 .weui-input {
-  width: 100px;
+    width: 100px;
 }
 
 .task-list-title {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20rpx;
 }
 
 .list-title {
-  display: flex;
-  font-weight: 600;
-  border: solid #DFDFDF 1rpx;
+    display: flex;
+    font-weight: 600;
+    border: solid #DFDFDF 1rpx;
 }
 
 .table {
-  border: 0px solid darkgray;
+    border: 0px solid darkgray;
+    background-color: #f6f6f6;
 }
 
 .tr {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  height: 3rem;
-  align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    height: 3rem;
+    align-items: center;
 }
 
 .td {
-  width: 40%;
-  justify-content: center;
-  text-align: center;
+    width: 40%;
+    justify-content: center;
+    text-align: center;
 }
 
 .bg-w {
-  background: snow;
+    background: snow;
 }
 
 .bg-g {
-  background: #E6F3F9;
+    background: #E6F3F9;
 }
 
 .th {
-  width: 40%;
-  justify-content: center;
-  background: green;
-  color: #fff;
-  display: flex;
-  height: 3rem;
-  align-items: center;
+    width: 40%;
+    justify-content: center;
+    background: green;
+    color: #fff;
+    display: flex;
+    height: 3rem;
+    align-items: center;
 }
