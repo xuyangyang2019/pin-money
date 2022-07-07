@@ -1,15 +1,17 @@
 /**app.wxss**/
 
+@import '/miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
+
 page {
-  background: #FFFFFF;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-} 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
