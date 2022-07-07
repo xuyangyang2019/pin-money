@@ -10,6 +10,7 @@ Page({
         taskList: [], // 任务列表
         taskName: '', // 任务名称
         taskReward: '', // 任务奖励
+        userList: [],
         dialogShow: false, // 任务奖励
         buttons: [{
             text: '取消'
@@ -45,33 +46,6 @@ Page({
         this.onQueryTask()
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    // onHide: function () {
-    // },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    // onUnload: function () {},
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    // onPullDownRefresh: function () {},
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    // onReachBottom: function () {},
-
-    /**
-     * 用户点击右上角分享
-     */
-    // onShareAppMessage: function () {
-    //   console.log('用户点击右上角分享')
-    // },
 
     /**
      * 修改任务名称数据
@@ -93,12 +67,43 @@ Page({
 
     openConfirm: function () {
         console.log('openConfirm')
+        this.onQueryUser()
         this.setData({
             dialogShow: true
         })
     },
 
-    tapDialogButton() {
+    /**
+     * 查询任务
+     */
+    onQueryUser: function () {
+        const db = wx.cloud.database()
+        // 查询当前用户所有的 counters
+        db.collection('children').where({
+            _openid: this.data.openid
+        }).get({
+            success: res => {
+                console.log(res.data)
+                this.setData({
+                    userList: res.data
+                })
+            },
+            fail: err => {
+                // wx.showToast({
+                //     icon: 'none',
+                //     title: '查询记录失败'
+                // })
+                console.error('[数据库] [查询记录] 失败：', err)
+            }
+        })
+    },
+
+
+    tapDialogButton(e) {
+        // console.log(e.detail.index)
+        if (e.detail.index === 1) {
+            this.onAddTask()
+        }
         // 更新当前数据
         this.setData({
             dialogShow: false,
@@ -109,53 +114,53 @@ Page({
      * 添加任务
      */
     onAddTask: function () {
+        console.log('onAddTask')
+        if (this.data.taskReward && this.data.taskName) {
+            const db = wx.cloud.database()
+            db.collection('task').add({
+                data: {
+                    name: this.data.taskName,
+                    reward: this.data.taskReward
+                },
+                success: res => {
+                    // 在返回结果中会包含新创建的记录的 _id
+                    let oldData = [...this.data.taskList, {
+                        _id: res._id,
+                        _openid: app.globalData.openid,
+                        name: this.data.taskName,
+                        reward: this.data.taskReward
+                    }]
 
-        // if (this.data.taskReward && this.data.taskName) {
-        //     const db = wx.cloud.database()
-        //     db.collection('task').add({
-        //         data: {
-        //             name: this.data.taskName,
-        //             reward: this.data.taskReward
-        //         },
-        //         success: res => {
-        //             // 在返回结果中会包含新创建的记录的 _id
-        //             let oldData = [...this.data.taskList, {
-        //                 _id: res._id,
-        //                 _openid: app.globalData.openid,
-        //                 name: this.data.taskName,
-        //                 reward: this.data.taskReward
-        //             }]
+                    // 更新每日任务
+                    let time = new Date(new Date().toLocaleDateString()).getTime()
+                    this.updateTaskFunction(this.data.taskName, time)
 
-        //             // 更新每日任务
-        //             let time = new Date(new Date().toLocaleDateString()).getTime()
-        //             this.updateTaskFunction(this.data.taskName, time)
+                    // 更新当前数据
+                    this.setData({
+                        taskList: oldData,
+                        taskName: '',
+                        taskReward: ''
+                    })
+                    wx.showToast({
+                        title: '新增记录成功',
+                    })
+                    // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
 
-        //             // 更新当前数据
-        //             this.setData({
-        //                 taskList: oldData,
-        //                 taskName: '',
-        //                 taskReward: ''
-        //             })
-        //             wx.showToast({
-        //                 title: '新增记录成功',
-        //             })
-        //             // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-
-        //         },
-        //         fail: err => {
-        //             wx.showToast({
-        //                 icon: 'none',
-        //                 title: '新增记录失败'
-        //             })
-        //             console.error('[数据库] [新增记录] 失败：', err)
-        //         }
-        //     })
-        // } else {
-        //     wx.showToast({
-        //         title: '数据格式不正确，不能添加！',
-        //         icon: 'error'
-        //     })
-        // }
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: '新增记录失败'
+                    })
+                    console.error('[数据库] [新增记录] 失败：', err)
+                }
+            })
+        } else {
+            wx.showToast({
+                title: '数据格式不正确，不能添加！',
+                icon: 'error'
+            })
+        }
     },
 
     /**

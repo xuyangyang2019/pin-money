@@ -6,18 +6,6 @@
     box-sizing: border-box;
 }
 
-.add-task-box {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 20rpx;
-}
-
-.weui-input {
-    width: 100px;
-}
-
 .task-list-title {
     display: flex;
     align-items: center;

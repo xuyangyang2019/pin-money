@@ -1,12 +1,17 @@
 <view class="task-list">
-    <!-- 添加任务 -->
-    <!-- <view class="add-task-box">
-        <input class="weui-input" name="{{taskName}}" value="{{taskName}}" placeholder=" 任务名称" bindinput="bindNameInput" />
-        <input class="weui-input" name="{{taskReward}}" value="{{taskReward}}" placeholder="任务奖励" bindinput="bindRewardInput" />
-    </view> -->
-
-    <mp-dialog title="弹窗" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
-        <view>提示内容</view>
+    <mp-dialog title="" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+        <view style="display: flex;margin: 10px 0;">
+            任务名称
+            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskName}}" value="{{taskName}}" placeholder="" bindinput="bindNameInput" />
+        </view>
+        <view style="display: flex;margin: 10px 0;">
+            奖励金额
+            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskReward}}" value="{{taskReward}}" placeholder="" bindinput="bindRewardInput" />
+        </view>
+        <view style="display: flex;margin: 10px 0;">
+            指定用户
+            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskReward}}" value="{{taskReward}}" placeholder="" bindinput="bindRewardInput" />
+        </view>
     </mp-dialog>
 
     <!-- 操作 -->
