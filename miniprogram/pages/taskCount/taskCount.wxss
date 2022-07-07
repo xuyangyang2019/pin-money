@@ -4,16 +4,20 @@
     flex-direction: column;
     padding: 20rpx;
     box-sizing: border-box;
+    background-color: #fff;
 }
 
 .count-tip {
     padding: 20rpx 0;
     font-weight: 600;
     margin-right: 20rpx;
+    display: flex;
+    align-items: center;
 }
 
 .table {
     border: 0px solid darkgray;
+    background-color: #F6F6F6;
 }
 
 .tr {
@@ -57,6 +61,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-top: 50rpx;
 }
 
 .fontColor+.fontColor {

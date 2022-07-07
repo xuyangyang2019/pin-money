@@ -80,7 +80,6 @@ Page({
                         })
                     }
                 }
-                console.log(userOptions)
                 this.setData({
                     userList: userList,
                     userMap: userMap,
