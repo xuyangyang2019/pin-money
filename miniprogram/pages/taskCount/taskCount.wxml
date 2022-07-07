@@ -1,7 +1,10 @@
 <!--taskCount.wxml-->
 <view class="home-view">
     <!-- 总览 -->
-    <view class="count-tip">奖励总览</view>
+    <view class="count-tip">
+        <view>奖励总览</view>
+        <button style="margin-left:50rpx;padding: 2rpx 20rpx;" type="default" size="mini" bindtap="rewardFunction">刷 新</button>
+    </view>
     <view class="table">
         <view class="tr bg-w">
             <view class="th th2">姓名</view>
@@ -21,11 +24,6 @@
             </view>
         </block>
     </view>
-
-
-    <!-- 自定义选择select组件 -->
-    <!-- <text class="count-tip">数据类型：</text>
-    <select class="fontColor" defaultOption="{{defaultOption}}" options="{{selectOptions}}" key="value" text="label" bind:change="selectChange"></select> -->
 
     <!-- 每日任务列表 -->
     <view class="list-header">
