@@ -67,6 +67,13 @@ Page({
     },
     // 统计信息
     rewardFunction() {
+        this.setData({
+            userList: [],
+            userMap: {},
+            payedMap: {},
+            noPayMap: {},
+            userOptions: {}
+        })
         wx.cloud.callFunction({
             name: 'sum',
             data: {},

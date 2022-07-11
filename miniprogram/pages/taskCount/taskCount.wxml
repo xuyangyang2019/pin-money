@@ -3,7 +3,7 @@
     <!-- 总览 -->
     <view class="count-tip">
         <view>奖励总览</view>
-        <button style="margin-left:50rpx;padding: 2rpx 20rpx;" type="default" size="mini" bindtap="rewardFunction">刷 新</button>
+        <button style="margin-left:40rpx" class="weui-btn weui-btn_default weui-btn_mini" bindtap="rewardFunction">刷新</button>
     </view>
     <view class="table">
         <view class="tr bg-w">
