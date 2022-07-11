@@ -57,7 +57,7 @@ Page({
         // 查询统计信息
         this.rewardFunction()
         // 查询详细信息
-        this.queryRewardList()
+        this.queryRewardList(this.data.currentType,this.data.currentUserId)
     },
     onReachBottom: function () {
         this.setData({
@@ -72,7 +72,6 @@ Page({
             userMap: {},
             payedMap: {},
             noPayMap: {},
-            userOptions: {}
         })
         wx.cloud.callFunction({
             name: 'sum',
