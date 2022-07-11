@@ -1,35 +1,50 @@
 <view class="task-list">
-  <!-- 添加任务 -->
-  <view class="add-task-box">
-    <input class="weui-input" name="{{userName}}" value="{{userName}}" placeholder="用户名称" bindinput="bindNameInput" />
-    <button style="margin-left:20rx" type="primary" size="mini" bindtap="onAddUser">添加</button>
-  </view>
 
-  <!-- 操作 -->
-  <view class="task-list-title">
-    <text>用户列表</text>
-    <button style="margin-left:50rpx;padding: 2rpx 20rpx;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
-  </view>
+    <!-- 添加用户弹框 -->
+    <mp-dialog title="" show="{{addUserDialog}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+        <view style="display: flex;margin: 10px 0;">
+            昵称
+            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskName}}" value="{{taskName}}" placeholder="" bindinput="bindNameInput" />
+        </view>
+    </mp-dialog>
 
-  <!-- 任务列表 -->
-  <view class="table">
-    <view class="tr bg-w">
-      <view class="th">名称</view>
-      <view class="th">操作</view>
+    <!-- 刷新|添加 用户 -->
+    <view class="weui-flex">
+        <view class="weui-flex__item">
+            <view style="font-size: 16px;font-weight: 600;" class="placeholder">用户列表</view>
+        </view>
+        <view class="weui-flex__item">
+            <view class="placeholder">
+                <button class="weui-btn weui-btn_default weui-btn_mini" bindtap="queryUser">刷新</button>
+            </view>
+        </view>
+        <view class="weui-flex__item">
+            <view class="placeholder">
+                <button class="weui-btn weui-btn_primary weui-btn_mini" bindtap="openDialog">添加用户</button>
+            </view>
+        </view>
     </view>
-    <block wx:for="{{userList}}" wx:key="index">
-      <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-        <view class="td">{{item.name}}</view>
-        <view class="td">
-          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+
+    <!-- 任务列表 -->
+    <view class="table">
+        <view class="tr bg-w">
+            <view class="th">名称</view>
+            <view class="th">操作</view>
         </view>
-      </view>
-      <view class="tr" wx:else>
-        <view class="td">{{item.name}}</view>
-        <view class="td">
-          <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
-        </view>
-      </view>
-    </block>
-  </view>
+        <block wx:for="{{userList}}" wx:key="index">
+            <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+                <view class="td">{{item.name}}</view>
+                <view class="td">
+                    <button class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+                </view>
+            </view>
+            <view class="tr" wx:else>
+                <view class="td">{{item.name}}</view>
+                <view class="td">
+                    <!-- <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button> -->
+                    <button class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+                </view>
+            </view>
+        </block>
+    </view>
 </view>
