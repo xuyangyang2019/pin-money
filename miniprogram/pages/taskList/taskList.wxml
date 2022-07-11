@@ -9,10 +9,10 @@
             奖励金额
             <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskReward}}" value="{{taskReward}}" placeholder="" bindinput="bindRewardInput" />
         </view>
-        <view style="display: flex;margin: 10px 0;">
+        <!-- <view style="display: flex;margin: 10px 0;">
             指定用户
             <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskUser}}" value="{{taskUser}}" placeholder="" bindinput="bindUserInput" />
-        </view>
+        </view> -->
     </mp-dialog>
 
     <!-- 操作 -->
