@@ -10,6 +10,7 @@ Page({
         taskList: [], // 任务列表
         taskName: '', // 任务名称
         taskReward: '', // 任务奖励
+        taskUser: '', // 任务奖励
         userList: [],
         dialogShow: false, // 任务奖励
         buttons: [{
@@ -62,6 +63,12 @@ Page({
     bindRewardInput: function (e) {
         this.setData({
             taskReward: e.detail.value
+        })
+    },
+
+    bindUserInput: function (e) {
+        this.setData({
+            taskUser: e.detail.value
         })
     },
 
@@ -120,7 +127,8 @@ Page({
             db.collection('task').add({
                 data: {
                     name: this.data.taskName,
-                    reward: this.data.taskReward
+                    reward: this.data.taskReward,
+                    user: this.data.taskUser,
                 },
                 success: res => {
                     // 在返回结果中会包含新创建的记录的 _id
@@ -139,7 +147,8 @@ Page({
                     this.setData({
                         taskList: oldData,
                         taskName: '',
-                        taskReward: ''
+                        taskReward: '',
+                        taskUser: ''
                     })
                     wx.showToast({
                         title: '新增记录成功',

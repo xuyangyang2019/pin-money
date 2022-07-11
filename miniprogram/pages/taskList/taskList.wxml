@@ -1,4 +1,5 @@
 <view class="task-list">
+
     <mp-dialog title="" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
         <view style="display: flex;margin: 10px 0;">
             任务名称
@@ -10,37 +11,55 @@
         </view>
         <view style="display: flex;margin: 10px 0;">
             指定用户
-            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskReward}}" value="{{taskReward}}" placeholder="" bindinput="bindRewardInput" />
+            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskUser}}" value="{{taskUser}}" placeholder="" bindinput="bindUserInput" />
         </view>
     </mp-dialog>
 
     <!-- 操作 -->
-    <view class="task-list-title">
-        <text style="font-size: 16px;font-weight: 600;">任务列表</text>
-        <button style="margin-left: 20rpx;margin-right: 0;" type="default" size="mini" bindtap="onQueryTask">刷 新</button>
-        <button style="margin-left: 20rpx; ;" type="primary" size="mini" bindtap="openConfirm">添加</button>
+    <view class="weui-flex">
+        <view class="weui-flex__item">
+            <view style="font-size: 16px;font-weight: 600;" class="placeholder">任务列表</view>
+        </view>
+        <view class="weui-flex__item">
+            <view class="placeholder">
+                <button class="weui-btn weui-btn_default weui-btn_mini" bindtap="onQueryTask">刷新</button>
+                <!-- <button type="default" size="mini" data-task="{{item}}" bindtap="onQueryTask">刷新</button> -->
+            </view>
+        </view>
+        <view class="weui-flex__item">
+            <view class="placeholder">
+                <button class="weui-btn weui-btn_primary weui-btn_mini" bindtap="openConfirm">添加任务</button>
+                <!-- <button type="primary" size="mini" bindtap="openConfirm">添加任务</button> -->
+            </view>
+        </view>
     </view>
+
 
     <!-- 任务列表 -->
     <view class="table">
         <view class="tr bg-w">
-            <view class="th">名称</view>
-            <view class="th">奖励</view>
+            <view class="th">任务名称</view>
+            <view class="th">奖励金额</view>
+            <view class="th">指定用户</view>
             <view class="th">操作</view>
         </view>
         <block wx:for="{{taskList}}" wx:key="index">
             <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
                 <view class="td">{{item.name}}</view>
                 <view class="td">{{item.reward}}</view>
+                <view class="td">{{item.reward}}</view>
                 <view class="td">
-                    <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
+                    <button class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
+                    <!-- <button type="warn" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button> -->
                 </view>
             </view>
             <view class="tr" wx:else>
                 <view class="td">{{item.name}}</view>
                 <view class="td">{{item.reward}}</view>
+                <view class="td">{{item.reward}}</view>
                 <view class="td">
-                    <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
+                    <!-- <button type="warn" size="mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button> -->
+                    <button class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveTask">删除</button>
                 </view>
             </view>
         </block>
