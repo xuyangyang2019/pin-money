@@ -90,17 +90,16 @@ Page({
             _openid: this.data.openid
         }).get({
             success: res => {
-                console.log(res.data)
                 this.setData({
                     userList: res.data
                 })
             },
             fail: err => {
-                // wx.showToast({
-                //     icon: 'none',
-                //     title: '查询记录失败'
-                // })
-                console.error('[数据库] [查询记录] 失败：', err)
+                wx.showToast({
+                    icon: 'none',
+                    title: '查询记录失败'
+                })
+                // console.error('[数据库] [查询记录] 失败：', err)
             }
         })
     },
@@ -121,14 +120,12 @@ Page({
      * 添加任务
      */
     onAddTask: function () {
-        console.log('onAddTask')
         if (this.data.taskReward && this.data.taskName) {
             const db = wx.cloud.database()
             db.collection('task').add({
                 data: {
                     name: this.data.taskName,
-                    reward: this.data.taskReward,
-                    user: this.data.taskUser,
+                    reward: this.data.taskReward
                 },
                 success: res => {
                     // 在返回结果中会包含新创建的记录的 _id
@@ -161,7 +158,7 @@ Page({
                         icon: 'none',
                         title: '新增记录失败'
                     })
-                    console.error('[数据库] [新增记录] 失败：', err)
+                    // console.error('[数据库] [新增记录] 失败：', err)
                 }
             })
         } else {
@@ -176,7 +173,7 @@ Page({
      * 删除任务
      */
     onRemoveTask: function (e) {
-        console.log('onRemoveTask', e.currentTarget.dataset.task)
+        // console.log('onRemoveTask', e.currentTarget.dataset.task)
         if (e.currentTarget.dataset.task) {
             const {
                 _id,
@@ -205,7 +202,7 @@ Page({
                         icon: 'none',
                         title: '删除失败',
                     })
-                    console.error('[数据库] [删除记录] 失败：', err)
+                    // console.error('[数据库] [删除记录] 失败：', err)
                 }
             })
         } else {
@@ -254,7 +251,6 @@ Page({
                 deleteKey: deleteKey
             },
             success: res => {
-                console.log(res)
                 wx.showToast({
                     title: '调用成功',
                 })
@@ -264,7 +260,7 @@ Page({
                     icon: 'none',
                     title: '调用失败',
                 })
-                console.error('[云函数] [sum] 调用失败：', err)
+                // console.error('[云函数] [sum] 调用失败：', err)
             }
         })
     },
