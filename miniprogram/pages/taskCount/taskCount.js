@@ -45,6 +45,15 @@ Page({
         })
     },
     onShow: function () {
+        // 清空已有的数据
+        this.setData({
+            dailyTask: [],
+            userList: [],
+            userMap: {},
+            payedMap: {},
+            noPayMap: {},
+        })
+
         // 查询统计信息
         this.rewardFunction()
         // 查询详细信息
