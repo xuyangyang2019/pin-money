@@ -29,20 +29,33 @@
     <view class="table">
         <view class="tr bg-w">
             <view class="th">名称</view>
+            <view class="th">所属任务</view>
             <view class="th">操作</view>
         </view>
         <block wx:for="{{userList}}" wx:key="index">
             <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
                 <view class="td">{{item.name}}</view>
-                <view class="td">
-                    <button class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+                <view class="td">{{item.task}}</view>
+                <view class="td" style="flex-wrap: wrap;">
+                    <button style="margin:10rpx;" class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+                    <picker bindchange="bindPickerChange" value="{{index}}" range="{{taskList}}">
+                        <view class="picker">
+                            <button style="margin:10rpx;" class="weui-btn weui-btn_primary weui-btn_mini" data-task="{{item}}" bindtap="allotTask">分配任务</button>
+                        </view>
+                    </picker>
                 </view>
             </view>
             <view class="tr" wx:else>
                 <view class="td">{{item.name}}</view>
-                <view class="td">
-                    <!-- <button style="margin-left: 0;" size="mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button> -->
-                    <button class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+                <view class="td">{{item.task}}</view>
+
+                <view class="td" style="flex-wrap: wrap;">
+                    <button style="margin:10rpx;" class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
+                    <picker bindchange="bindPickerChange" value="{{index}}" range="{{taskList}}">
+                        <view class="picker">
+                            <button style="margin:10rpx;" class="weui-btn weui-btn_primary weui-btn_mini" data-task="{{item}}" bindtap="allotTask">分配任务</button>
+                        </view>
+                    </picker>
                 </view>
             </view>
         </block>

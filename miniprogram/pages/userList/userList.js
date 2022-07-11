@@ -14,7 +14,10 @@ Page({
             text: '确定'
         }],
         userName: '', // 用户ni'ch
-        taskList: '', // 任务名称
+        taskList: [], // 任务名称
+        index: 0,
+        currentUser: {}
+
     },
     //  生命周期函数--监听页面加载
     onLoad(options) {
@@ -26,7 +29,7 @@ Page({
     // 生命周期函数--监听页面显示
     onShow() {
         this.queryUser()
-        // this.queryTask()
+        this.queryTask()
     },
 
     openDialog() {
@@ -160,7 +163,8 @@ Page({
         }
     },
     // 查询用户列表
-    queryUser() {
+    queryUser: function () {
+        console.log('queryUser')
         // const db = wx.cloud.database()
         this.setData({
             userList: []
@@ -185,6 +189,42 @@ Page({
                 }
             })
     },
+    // 分配任务
+    allotTask(e) {
+        if (e.currentTarget.dataset.task) {
+            this.setData({
+                currentUser: e.currentTarget.dataset.task
+            })
+        }
+    },
+    bindPickerChange: function (e) {
+        // this.setData({
+        //     index: e.detail.value
+        // })
+
+        const {
+            _id,
+            task,
+            _openid
+        } = this.data.currentUser
+        let taskName = this.data.taskList[e.detail.value]
+        if (_id) {
+            let newTask = [taskName]
+            if (task) {
+                newTask = newTask.concat(task)
+            }
+            newTask = [...new Set(newTask)]
+            db.collection('children').doc(_id).update({
+                data: {
+                    task: newTask
+                },
+                success: function (res) {
+                    console.log('bindPickerChange', res)
+                    this.queryUser()
+                }
+            })
+        }
+    },
     // 查询任务
     queryTask() {
         // 查询当前用户所有的 counters
@@ -192,9 +232,12 @@ Page({
             _openid: app.globalData.openid
         }).get({
             success: res => {
-                // console.log('[数据库] [查询记录] 成功: ', res)
+                console.log('[数据库] [查询记录] 成功: ', res)
                 this.setData({
-                    taskList: res.data
+                    // taskList: res.data
+                    taskList: res.data.map(x => {
+                        return x.name
+                    })
                 })
             },
             fail: err => {
