@@ -3,8 +3,32 @@
     <!-- 添加用户弹框 -->
     <mp-dialog title="" show="{{addUserDialog}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
         <view style="display: flex;margin: 10px 0;">
-            昵称
-            <input style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskName}}" value="{{taskName}}" placeholder="" bindinput="bindNameInput" />
+            <view class="weui-cell weui-check__label">
+                昵称
+            </view>
+            <input class="weui-cell" style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskName}}" value="{{taskName}}" placeholder="" bindinput="bindNameInput" />
+        </view>
+    </mp-dialog>
+
+    <!-- 分配任务弹框 -->
+    <mp-dialog title="" show="{{allotTaskDialog}}" bindbuttontap="tapAllotDialogButton" buttons="{{buttons}}">
+        <!-- <block wx:for="{{taskList}}" wx:for-item="taskItem" wx:key="index">
+            <view>
+                {{taskItem}}
+            </view>
+        </block> -->
+        <view class="page-section">
+            <view class="page-section-title">分配任务</view>
+            <view class="weui-cells weui-cells_after-title">
+                <checkbox-group bindchange="checkboxChange">
+                    <label class="weui-cell weui-check__label" wx:for="{{items}}" wx:key="value">
+                        <view class="weui-cell__hd">
+                            <checkbox value="{{item.value}}" checked="{{item.checked}}" />
+                        </view>
+                        <view class="weui-cell__bd">{{item.name}}</view>
+                    </label>
+                </checkbox-group>
+            </view>
         </view>
     </mp-dialog>
 
@@ -38,11 +62,12 @@
                 <view class="td">{{item.task}}</view>
                 <view class="td" style="flex-wrap: wrap;">
                     <button style="margin:10rpx;" class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
-                    <picker bindchange="bindPickerChange" value="{{index}}" range="{{taskList}}">
+                    <button style="margin:10rpx;" class="weui-btn weui-btn_primary weui-btn_mini" data-task="{{item}}" bindtap="allotTask">分配任务</button>
+                    <!-- <picker bindchange="bindPickerChange" value="{{index}}" range="{{taskList}}">
                         <view class="picker">
                             <button style="margin:10rpx;" class="weui-btn weui-btn_primary weui-btn_mini" data-task="{{item}}" bindtap="allotTask">分配任务</button>
                         </view>
-                    </picker>
+                    </picker> -->
                 </view>
             </view>
             <view class="tr" wx:else>
@@ -51,11 +76,12 @@
 
                 <view class="td" style="flex-wrap: wrap;">
                     <button style="margin:10rpx;" class="weui-btn weui-btn_warn weui-btn_mini" data-task="{{item}}" bindtap="onRemoveUser">删除</button>
-                    <picker bindchange="bindPickerChange" value="{{index}}" range="{{taskList}}">
+                    <button style="margin:10rpx;" class="weui-btn weui-btn_primary weui-btn_mini" data-task="{{item}}" bindtap="allotTask">分配任务</button>
+                    <!-- <picker bindchange="bindPickerChange" value="{{index}}" range="{{taskList}}">
                         <view class="picker">
                             <button style="margin:10rpx;" class="weui-btn weui-btn_primary weui-btn_mini" data-task="{{item}}" bindtap="allotTask">分配任务</button>
                         </view>
-                    </picker>
+                    </picker> -->
                 </view>
             </view>
         </block>

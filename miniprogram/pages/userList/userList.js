@@ -13,10 +13,12 @@ Page({
         }, {
             text: '确定'
         }],
-        userName: '', // 用户ni'ch
+        userName: '', // 用户昵称
+        allotTaskDialog: '', // 分配任务弹框
+        items: [],
         taskList: [], // 任务名称
-        index: 0,
         currentUser: {}
+        // index: 0,
 
     },
     //  生命周期函数--监听页面加载
@@ -32,6 +34,54 @@ Page({
         this.queryTask()
     },
 
+    // 查询用户列表
+    queryUser: function () {
+        console.log('queryUser')
+        // const db = wx.cloud.database()
+        this.setData({
+            userList: []
+        })
+        // 查询当前用户所有的 counters
+        db.collection('children')
+            .where({
+                _openid: app.globalData.openid
+            })
+            .orderBy('_id', 'asc')
+            .get({
+                success: res => {
+                    this.setData({
+                        userList: res.data
+                    })
+                },
+                fail: err => {
+                    wx.showToast({
+                        icon: 'none',
+                        title: `查询用户失败:err`
+                    })
+                }
+            })
+    },
+    // 查询任务
+    queryTask() {
+        // 查询当前用户所有的 counters
+        db.collection('task').where({
+            _openid: app.globalData.openid
+        }).get({
+            success: res => {
+                console.log('[数据库] [查询记录] 成功: ', res)
+                this.setData({
+                    taskList: res.data
+                    // taskList: res.data.map(x => {
+                    //     return x.name
+                    // })
+                })
+            },
+            fail: err => {
+                console.error('[数据库] [查询记录] 失败：', err)
+            }
+        })
+    },
+
     openDialog() {
         console.log('openConfirm')
         // this.onQueryUser()
@@ -39,7 +89,6 @@ Page({
             addUserDialog: true
         })
     },
-
     tapDialogButton(e) {
         // console.log(e.detail.index)
         if (e.detail.index === 1) {
@@ -50,7 +99,7 @@ Page({
             addUserDialog: false,
         })
     },
-    // 修改用户名称数据
+    // 修改用户名
     bindNameInput(e) {
         this.setData({
             userName: e.detail.value
@@ -117,6 +166,7 @@ Page({
             })
         }
     },
+
     // 删除用户
     onRemoveUser(e) {
         // console.log('onRemoveUser', e.currentTarget.dataset.task)
@@ -162,87 +212,101 @@ Page({
             })
         }
     },
-    // 查询用户列表
-    queryUser: function () {
-        console.log('queryUser')
-        // const db = wx.cloud.database()
-        this.setData({
-            userList: []
-        })
-        // 查询当前用户所有的 counters
-        db.collection('children')
-            .where({
-                _openid: app.globalData.openid
-            })
-            .orderBy('_id', 'asc')
-            .get({
-                success: res => {
-                    this.setData({
-                        userList: res.data
-                    })
-                },
-                fail: err => {
-                    wx.showToast({
-                        icon: 'none',
-                        title: `查询用户失败:err`
-                    })
-                }
-            })
-    },
-    // 分配任务
+    // 展示分配任务对话框
     allotTask(e) {
         if (e.currentTarget.dataset.task) {
+            const {
+                task: tasks
+            } = e.currentTarget.dataset.task
+            let checkList = []
+            for (const taskItem of this.data.taskList) {
+                checkList.push({
+                    value: taskItem._id,
+                    name: taskItem.name,
+                    checked: tasks.indexOf(taskItem.name) >= 0
+                })
+            }
             this.setData({
-                currentUser: e.currentTarget.dataset.task
+                currentUser: e.currentTarget.dataset.task,
+                allotTaskDialog: true,
+                items: checkList
             })
         }
     },
-    bindPickerChange: function (e) {
-        // this.setData({
-        //     index: e.detail.value
-        // })
-
+    // 取消或确认分配
+    tapAllotDialogButton(e) {
         const {
             _id,
-            task,
-            _openid
         } = this.data.currentUser
-        let taskName = this.data.taskList[e.detail.value]
-        if (_id) {
-            let newTask = [taskName]
-            if (task) {
-                newTask = newTask.concat(task)
-            }
-            newTask = [...new Set(newTask)]
-            db.collection('children').doc(_id).update({
-                data: {
-                    task: newTask
-                },
-                success: function (res) {
-                    console.log('bindPickerChange', res)
-                    this.queryUser()
-                }
+
+        if (_id && e.detail.index === 1) {
+            let currentTaskList = this.data.items.filter(x => {
+                return x.checked
+            }).map(x => {
+                return x.name
             })
-        }
-    },
-    // 查询任务
-    queryTask() {
-        // 查询当前用户所有的 counters
-        db.collection('task').where({
-            _openid: app.globalData.openid
-        }).get({
-            success: res => {
-                console.log('[数据库] [查询记录] 成功: ', res)
-                this.setData({
-                    // taskList: res.data
-                    taskList: res.data.map(x => {
-                        return x.name
-                    })
+            db.collection('children')
+                .doc(_id)
+                .update({
+                    data: {
+                        task: currentTaskList
+                    }
+                }).then(res => {
+                    console.log(res)
+                    this.queryUser()
                 })
-            },
-            fail: err => {
-                console.error('[数据库] [查询记录] 失败：', err)
-            }
+
+        }
+        // 隐藏对话框
+        this.setData({
+            allotTaskDialog: false,
         })
-    }
+    },
+    // 选择任务
+    checkboxChange(e) {
+        // console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+        const items = this.data.items
+        const values = e.detail.value
+        for (let i = 0, lenI = items.length; i < lenI; ++i) {
+            items[i].checked = false
+            for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+                if (items[i].value === values[j]) {
+                    items[i].checked = true
+                    break
+                }
+            }
+        }
+        this.setData({
+            items
+        })
+    },
+
+    // bindPickerChange: function (e) {
+    //     // this.setData({
+    //     //     index: e.detail.value
+    //     // })
+
+    //     const {
+    //         _id,
+    //         task,
+    //         _openid
+    //     } = this.data.currentUser
+    //     let taskName = this.data.taskList[e.detail.value]
+    //     if (_id) {
+    //         let newTask = [taskName]
+    //         if (task) {
+    //             newTask = newTask.concat(task)
+    //         }
+    //         newTask = [...new Set(newTask)]
+    //         db.collection('children').doc(_id).update({
+    //             data: {
+    //                 task: newTask
+    //             },
+    //             success: function (res) {
+    //                 console.log('bindPickerChange', res)
+    //                 this.queryUser()
+    //             }
+    //         })
+    //     }
+    // },
 })
