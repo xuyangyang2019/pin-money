@@ -2,11 +2,13 @@
 
     <!-- 添加用户弹框 -->
     <mp-dialog title="" show="{{addUserDialog}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
-        <view style="display: flex;margin: 10px 0;">
-            <view class="weui-cell weui-check__label">
-                昵称
+        <view class="weui-cells">
+            <view class="weui-cell">
+                <view style="width: 80px;" class="weui-cell__hd">姓名</view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" name="{{userName}}" value="{{userName}}" placeholder="请输入姓名" bindinput="bindNameInput" />
+                </view>
             </view>
-            <input class="weui-cell" style="margin-left: 10px;width: 160px;border: solid #999 1px;" name="{{taskName}}" value="{{taskName}}" placeholder="" bindinput="bindNameInput" />
         </view>
     </mp-dialog>
 

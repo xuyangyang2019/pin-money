@@ -36,8 +36,6 @@ Page({
 
     // 查询用户列表
     queryUser: function () {
-        console.log('queryUser')
-        // const db = wx.cloud.database()
         this.setData({
             userList: []
         })
@@ -68,16 +66,15 @@ Page({
             _openid: app.globalData.openid
         }).get({
             success: res => {
-                console.log('[数据库] [查询记录] 成功: ', res)
                 this.setData({
                     taskList: res.data
-                    // taskList: res.data.map(x => {
-                    //     return x.name
-                    // })
                 })
             },
             fail: err => {
-                console.error('[数据库] [查询记录] 失败：', err)
+                wx.showToast({
+                    icon: 'none',
+                    title: `查询任务失败:err`
+                })
             }
         })
     },
@@ -90,9 +87,16 @@ Page({
         })
     },
     tapDialogButton(e) {
-        // console.log(e.detail.index)
         if (e.detail.index === 1) {
-            this.onAddUser()
+            if (this.data.userName) {
+                this.addUser(this.data.userName)
+            } else {
+                wx.showToast({
+                    title: '姓名不能为空！',
+                    icon: 'error'
+                })
+                return
+            }
         }
         // 隐藏对话框
         this.setData({
@@ -106,77 +110,71 @@ Page({
         })
     },
     // 添加用户
-    onAddUser() {
-        if (this.data.userName) {
-            const db = wx.cloud.database()
-            db.collection('children').add({
-                data: {
-                    name: this.data.userName,
-                },
-                success: res => {
-                    // 在返回结果中会包含新创建的记录的 _id
-                    let oldData = [...this.data.userList, {
-                        _id: res._id,
-                        _openid: app.globalData.openid,
-                        name: this.data.userName,
-                    }]
+    addUser(userName) {
+        db.collection('children').add({
+            data: {
+                name: userName,
+            }
+        }).then(res => {
+            console.log(res)
+            this.queryUser()
+            // success: res => {
+            //     // 在返回结果中会包含新创建的记录的 _id
+            //     let oldData = [...this.data.userList, {
+            //         _id: res._id,
+            //         _openid: app.globalData.openid,
+            //         name: this.data.userName,
+            //     }]
 
-                    wx.showToast({
-                        title: '新增用户成功',
-                    })
-                    // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-                    // 自动创建每日任务
-                    let ts = {}
-                    for (const task of this.data.taskList) {
-                        ts[task.name] = false
-                    }
-                    let dd = {
-                        // _openid: app.globalData.openid,
-                        userId: res._id,
-                        userName: this.data.userName,
-                        taskState: ts,
-                        hasPaied: false,
-                        totalMoney: 0,
-                        createTime: new Date().toLocaleString(),
-                        belongTime: new Date(new Date().toLocaleDateString()).getTime()
-                    }
-                    db.collection('dailyTask').add({
-                        data: dd
-                    }).then(res => {
-                        console.log(res)
-                    })
-                    this.setData({
-                        userList: oldData,
-                        userName: '',
-                    })
+            //     wx.showToast({
+            //         title: '新增用户成功',
+            //     })
+            //     // console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+            //     // 自动创建每日任务
+            //     let ts = {}
+            //     for (const task of this.data.taskList) {
+            //         ts[task.name] = false
+            //     }
+            //     let dd = {
+            //         // _openid: app.globalData.openid,
+            //         userId: res._id,
+            //         userName: this.data.userName,
+            //         taskState: ts,
+            //         hasPaied: false,
+            //         totalMoney: 0,
+            //         createTime: new Date().toLocaleString(),
+            //         belongTime: new Date(new Date().toLocaleDateString()).getTime()
+            //     }
+            //     db.collection('dailyTask').add({
+            //         data: dd
+            //     }).then(res => {
+            //         console.log(res)
+            //     })
+            //     this.setData({
+            //         userList: oldData,
+            //         userName: '',
+            //     })
 
-                },
-                fail: err => {
-                    wx.showToast({
-                        icon: 'none',
-                        title: '新增记录失败'
-                    })
-                    console.error('[数据库] [新增记录] 失败：', err)
-                }
-            })
-        } else {
-            wx.showToast({
-                title: '数据格式不正确，不能添加！',
-                icon: 'error'
-            })
-        }
+            // },
+            // fail: err => {
+            //     wx.showToast({
+            //         icon: 'none',
+            //         title: '新增记录失败'
+            //     })
+            //     console.error('[数据库] [新增记录] 失败：', err)
+            // }
+        })
+
     },
 
     // 删除用户
     onRemoveUser(e) {
-        // console.log('onRemoveUser', e.currentTarget.dataset.task)
         if (e.currentTarget.dataset.task) {
             const {
                 name,
                 _id,
                 _openid
             } = e.currentTarget.dataset.task
-            const db = wx.cloud.database()
             // 删除用户信息
             db.collection('children').doc(_id).remove({
                 success: res => {
@@ -188,27 +186,21 @@ Page({
                             return x._id !== _id
                         })
                     })
-                    // 删除今天的任务数据
-                    db.collection('dailyTask').where({
-                        userName: name,
-                        _openid: _openid,
-                        belongTime: new Date(new Date().toLocaleDateString()).getTime()
-                    }).remove().then(res => {
-                        console.log(res)
-                    })
-
+                    // // 删除今天的任务数据
+                    // db.collection('dailyTask').where({
+                    //     userName: name,
+                    //     _openid: _openid,
+                    //     belongTime: new Date(new Date().toLocaleDateString()).getTime()
+                    // }).remove().then(res => {
+                    //     console.log(res)
+                    // })
                 },
                 fail: err => {
                     wx.showToast({
                         icon: 'none',
                         title: '删除失败',
                     })
-                    console.error('[数据库] [删除记录] 失败：', err)
                 }
-            })
-        } else {
-            wx.showToast({
-                title: '无记录可删，请见创建一个记录',
             })
         }
     },
@@ -223,7 +215,7 @@ Page({
                 checkList.push({
                     value: taskItem._id,
                     name: taskItem.name,
-                    checked: tasks.indexOf(taskItem.name) >= 0
+                    checked: tasks && tasks.indexOf(taskItem.name) >= 0
                 })
             }
             this.setData({
