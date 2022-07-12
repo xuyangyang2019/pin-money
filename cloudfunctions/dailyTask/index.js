@@ -5,10 +5,7 @@ cloud.init({
     env: cloud.DYNAMIC_CURRENT_ENV
 })
 
-const {
-    OPENID,
-    APPID
-} = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
+
 const db = cloud.database()
 
 
@@ -19,6 +16,10 @@ exports.main = async (event, context) => {
     // const {
     //     data: taskList
     // } = await db.collection('task').get()
+    const {
+        OPENID,
+        APPID
+    } = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
 
     const {
         data: userList
@@ -27,7 +28,7 @@ exports.main = async (event, context) => {
     for (const user of userList) {
         let taskState = {}
         user.task.forEach(x => {
-            taskState[x.name] = false
+            taskState[x] = false
         })
         let dd = {
             // _openid: user._openid,

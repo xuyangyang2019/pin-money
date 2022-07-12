@@ -5,69 +5,60 @@ cloud.init({
     env: cloud.DYNAMIC_CURRENT_ENV
 })
 
+const db = cloud.database()
+const _ = db.command
+
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-    // const wxContext = cloud.getWXContext()
-    // let taskName = await event.taskName
     const {
-        taskName,
-        belongTime,
-        deleteKey,
-        userInfo
+        userId,
+        openId,
+        tasks,
+        name,
+        belongTime
     } = event
 
+    // let {
+    //     OPENID,
+    //     APPID
+    // } = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
 
-    const db = cloud.database()
-    const _ = db.command
+    let taskState = {}
+    tasks.forEach(x => {
+        taskState[x] = false
+    })
 
     const {
-        data: dailyTaskList
+        data: userInfo
     } = await db.collection('dailyTask').where({
-        _openid: userInfo.openId,
-        belongTime: belongTime
+        _openid: openId,
+        userId: userId,
+        belongTime: belongTime,
     }).get()
 
-    for (const dl of dailyTaskList) {
-        const _ = db.command
-        let taskState = {
-            ...dl.taskState
-        }
-        if (deleteKey) {
-            let nts = {}
-            for (const key in taskState) {
-                if (Object.hasOwnProperty.call(taskState, key)) {
-                    if (key !== taskName) {
-                        nts[key] = taskState[key]
-                    }
-                }
-            }
-            db.collection('dailyTask').doc(dl._id).update({
+    if (userInfo.length > 0) {
+        return db.collection('dailyTask')
+            .doc(userInfo[0]._id).update({
                 data: {
-                    taskState: _.set({
-                        ...nts
-                    })
+                    taskState: _.set(taskState),
+                    totalMoney: 0,
                 },
-                success: function (res) {
-                    console.log(res.data)
-                }
             })
-        } else {
-            taskState[taskName] = false
-            db.collection('dailyTask').doc(dl._id).update({
-                data: {
-                    taskState: {
-                        ...taskState
-                    }
-                },
-                success: function (res) {
-                    console.log(res.data)
-                }
-            })
+    } else {
+        let dd = {
+            _openid: openId,
+            userId: userId,
+            userName: name,
+            taskState: taskState,
+            hasPaied: false,
+            totalMoney: 0,
+            createTime: new Date().toLocaleString(),
+            belongTime: belongTime
         }
-    }
+        return db.collection('dailyTask').add({
+            data: dd
+        })
 
-    return {
-        event
     }
 }

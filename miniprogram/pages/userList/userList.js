@@ -156,7 +156,6 @@ Page({
             }
         })
     },
-
     // 删除用户
     onRemoveUser(e) {
         if (e.currentTarget.dataset.task) {
@@ -219,6 +218,7 @@ Page({
     tapAllotDialogButton(e) {
         const {
             _id,
+            name
         } = this.data.currentUser
 
         if (_id && e.detail.index === 1) {
@@ -232,12 +232,28 @@ Page({
                 .update({
                     data: {
                         task: currentTaskList
+                    },
+                    success: (res) => {
+                        console.log('tapAllotDialogButton', res)
+                        let newList = [...this.data.userList]
+                        for (const nl of newList) {
+                            if (nl._id === _id) {
+                                nl.task = currentTaskList
+                            }
+                        }
+                        this.setData({
+                            userList: newList
+                        })
+                        // 更新每日任务
+                        this.updateTaskFunction(_id, currentTaskList, name)
+                    },
+                    fail: (err) => {
+                        wx.showToast({
+                            icon: 'error',
+                            title: '分配任务失败！',
+                        })
                     }
-                }).then(res => {
-                    console.log(res)
-                    this.queryUser()
                 })
-
         }
         // 隐藏对话框
         this.setData({
@@ -260,6 +276,32 @@ Page({
         }
         this.setData({
             items
+        })
+    },
+    // 更新每日任务
+    updateTaskFunction(userId, tasks, name) {
+        console.log('updateTaskFunction', userId, tasks)
+        wx.cloud.callFunction({
+            name: 'updateTask',
+            data: {
+                userId: userId,
+                tasks: tasks,
+                name: name,
+                openId: app.globalData.openid,
+                belongTime: new Date(new Date().toLocaleDateString()).getTime()
+            },
+            success: res => {
+                console.log('updateTaskFunction', res)
+                // wx.showToast({
+                //     title: '更新每日任务成功',
+                // })
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'error',
+                    title: '更新每日任务失败',
+                })
+            }
         })
     },
 
