@@ -26,7 +26,6 @@ exports.main = async (event, context) => {
 
     for (const user of userList) {
         let taskState = {}
-        let createTime = new Date().toLocaleString()
         user.task.forEach(x => {
             taskState[x.name] = false
         })
@@ -38,8 +37,8 @@ exports.main = async (event, context) => {
             taskState: taskState,
             hasPaied: false,
             totalMoney: 0,
-            createTime: createTime,
-            belongTime: new Date(createTime).getTime()
+            createTime: new Date().toLocaleString(),
+            belongTime: new Date(new Date().toLocaleDateString()).getTime()
         }
         db.collection('dailyTask').add({
             data: dd

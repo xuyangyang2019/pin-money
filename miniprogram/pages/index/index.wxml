@@ -1,46 +1,50 @@
 <!--index.wxml-->
 <view class="home-view">
-  <picker style="padding: 20rpx 0;" mode="date" value="{{currentDate}}" start="2022-01-01" end="{{endTime}}" bindchange="bindDateChange">
-    <view class="picker">
-      设置时间: {{currentDate}}
-    </view>
-  </picker>
-
-  <view class="table">
-    <view class="tr bg-w">
-      <view class="th">姓名</view>
-      <view class="th">任务状态</view>
-    </view>
-    <block wx:for="{{dailyTask}}" wx:key="index" wx:for-item="dti">
-      <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-        <view class="td">{{dti.userName}}</view>
-        <view class="td">
-          <view class="list-task-state" wx:for="{{dti.taskState}}" wx:for-item="tsi" wx:key="index">
-            <text class="user-name">{{index}}</text>
-            <view class="list-item operation-btn">
-              <switch checked="{{tsi}}" data-task="{{dti}}" data-task-state="{{tsi}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+    <view class="weui-flex" style="align-items: center;">
+        <picker style="padding: 20rpx 0;" mode="date" value="{{currentDate}}" start="2022-01-01" end="{{endTime}}" bindchange="bindDateChange">
+            <view style="font-weight: 600;font-size: 16px;" class="picker">
+                设置时间:
+                {{currentDate}}
             </view>
-          </view>
+        </picker>
+        <button class="weui-btn weui-btn_default weui-btn_mini" bindtap="queryDailyTask">刷新</button>
+    </view>
+
+    <view class="table">
+        <view class="tr bg-w">
+            <view class="th">姓名</view>
+            <view class="th">任务状态</view>
         </view>
-      </view>
-      <view class="tr" wx:else>
-        <view class="td">{{dti.userName}}</view>
-        <view class="td">
-          <view class="list-task-state" wx:for="{{dti.taskState}}" wx:for-item="tsi" wx:key="index">
-            <text class="user-name">{{index}}</text>
-            <view class="list-item operation-btn">
-              <switch checked="{{tsi}}" data-task="{{dti}}" data-task-state="{{tsi}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+        <block wx:for="{{dailyTask}}" wx:key="index" wx:for-item="dti">
+            <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+                <view class="td">{{dti.userName}}</view>
+                <view class="td">
+                    <view class="list-task-state" wx:for="{{dti.taskState}}" wx:for-item="tsi" wx:key="index">
+                        <text class="user-name">{{index}}</text>
+                        <view class="list-item operation-btn">
+                            <switch checked="{{tsi}}" data-task="{{dti}}" data-task-state="{{tsi}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+                        </view>
+                    </view>
+                </view>
             </view>
-          </view>
-        </view>
-      </view>
-    </block>
-    <view class="tr" wx:if="{{dailyTask.length === 0}}"> 没有数据 </view>
-  </view>
+            <view class="tr" wx:else>
+                <view class="td">{{dti.userName}}</view>
+                <view class="td">
+                    <view class="list-task-state" wx:for="{{dti.taskState}}" wx:for-item="tsi" wx:key="index">
+                        <text class="user-name">{{index}}</text>
+                        <view class="list-item operation-btn">
+                            <switch checked="{{tsi}}" data-task="{{dti}}" data-task-state="{{tsi}}" data-task-state-name="{{index}}" bindchange="switch1Change" />
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="tr" wx:if="{{dailyTask.length === 0}}"> 没有数据 </view>
+    </view>
 
 
-  <!-- 上传图片 -->
-  <!-- <view class="uploader">
+    <!-- 上传图片 -->
+    <!-- <view class="uploader">
     <view class="uploader-text" bindtap="doUpload">
       <text>上传图片</text>
     </view>
