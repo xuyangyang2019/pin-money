@@ -5,15 +5,20 @@ cloud.init({
     env: cloud.DYNAMIC_CURRENT_ENV
 })
 
+const {
+    OPENID,
+    APPID
+} = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
+const db = cloud.database()
+
+
+
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-    // const wxContext = cloud.getWXContext()
-
-    const db = cloud.database()
-    const {
-        data: taskList
-    } = await db.collection('task').get()
+    // const {
+    //     data: taskList
+    // } = await db.collection('task').get()
 
     const {
         data: userList
@@ -23,12 +28,11 @@ exports.main = async (event, context) => {
         let taskState = {}
         let createTime = new Date().toLocaleString()
         user.task.forEach(x => {
-            // if (x._openid === user._openid) {
             taskState[x.name] = false
-            // }
         })
         let dd = {
-            _openid: user._openid,
+            // _openid: user._openid,
+            _openid: OPENID,
             userId: user._id,
             userName: user.name,
             taskState: taskState,
@@ -37,7 +41,6 @@ exports.main = async (event, context) => {
             createTime: createTime,
             belongTime: new Date(createTime).getTime()
         }
-        console.log(dd)
         db.collection('dailyTask').add({
             data: dd
         }).then(res => {
