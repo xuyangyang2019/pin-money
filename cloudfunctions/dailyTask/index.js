@@ -14,16 +14,18 @@ exports.main = async (event, context) => {
     const {
         data: taskList
     } = await db.collection('task').get()
+
     const {
         data: userList
     } = await db.collection('children').get()
 
     for (const user of userList) {
         let taskState = {}
-        taskList.forEach(x => {
-            if (x._openid === user._openid) {
-                taskState[x.name] = false
-            }
+        let createTime = new Date().toLocaleString()
+        user.task.forEach(x => {
+            // if (x._openid === user._openid) {
+            taskState[x.name] = false
+            // }
         })
         let dd = {
             _openid: user._openid,
@@ -32,8 +34,8 @@ exports.main = async (event, context) => {
             taskState: taskState,
             hasPaied: false,
             totalMoney: 0,
-            createTime: new Date().toLocaleString(),
-            belongTime: new Date(new Date().toLocaleDateString()).getTime()
+            createTime: createTime,
+            belongTime: new Date(createTime).getTime()
         }
         console.log(dd)
         db.collection('dailyTask').add({
