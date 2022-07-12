@@ -175,14 +175,14 @@ Page({
                             return x._id !== _id
                         })
                     })
-                    // // 删除今天的任务数据
-                    // db.collection('dailyTask').where({
-                    //     userName: name,
-                    //     _openid: _openid,
-                    //     belongTime: new Date(new Date().toLocaleDateString()).getTime()
-                    // }).remove().then(res => {
-                    //     console.log(res)
-                    // })
+                    // 删除今天的任务数据
+                    db.collection('dailyTask').where({
+                        userName: name,
+                        _openid: _openid,
+                        belongTime: new Date(new Date().toLocaleDateString()).getTime()
+                    }).remove().then(res => {
+                        console.log(res)
+                    })
                 },
                 fail: err => {
                     wx.showToast({
@@ -280,7 +280,6 @@ Page({
     },
     // 更新每日任务
     updateTaskFunction(userId, tasks, name) {
-        console.log('updateTaskFunction', userId, tasks)
         wx.cloud.callFunction({
             name: 'updateTask',
             data: {
@@ -291,10 +290,7 @@ Page({
                 belongTime: new Date(new Date().toLocaleDateString()).getTime()
             },
             success: res => {
-                console.log('updateTaskFunction', res)
-                // wx.showToast({
-                //     title: '更新每日任务成功',
-                // })
+                // console.log('updateTaskFunction', res)
             },
             fail: err => {
                 wx.showToast({
