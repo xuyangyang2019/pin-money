@@ -57,7 +57,7 @@ Page({
         // 查询统计信息
         this.rewardFunction()
         // 查询详细信息
-        this.queryRewardList(this.data.currentType,this.data.currentUserId)
+        this.queryRewardList(this.data.currentType, this.data.currentUserId)
     },
     onReachBottom: function () {
         this.setData({

@@ -12,7 +12,7 @@ Page({
         currentDate: '',
         endTime: '2122-01-01'
     },
-    onLoad: function () {
+    onLoad() {
         if (!wx.cloud) {
             wx.redirectTo({
                 url: '../chooseLib/chooseLib',
@@ -41,7 +41,7 @@ Page({
         //   }
         // })
     },
-    onShow: function () {
+    onShow() {
         let bt = new Date()
         let yy = bt.getFullYear()
         let mm = bt.getMonth() + 1
@@ -56,10 +56,12 @@ Page({
     },
 
     // 查询每日任务
-    queryDailyTask() {
-        this.setData({
-            dailyTask: [],
-        })
+    queryDailyTask(deleteFlag) {
+        if (deleteFlag !== 1) {
+            this.setData({
+                dailyTask: [],
+            })
+        }
 
         let belongTime = ''
         if (this.data.currentDate) {
@@ -109,7 +111,7 @@ Page({
         })
     },
     // 时间变更处理
-    bindDateChange: function (e) {
+    bindDateChange(e) {
         if (!e.detail.value) return
         this.setData({
             currentDate: e.detail.value
@@ -117,7 +119,7 @@ Page({
         this.queryDailyTask()
     },
     // 更新每日任务
-    switch1Change: function (e) {
+    switch1Change(e) {
         if (!this.data.changeFlag) {
             wx.showToast({
                 icon: 'loading',
@@ -162,11 +164,10 @@ Page({
                     totalMoney: totalReward,
                 },
                 success: (res) => {
-                    // this.queryDailyTask(new Date(new Date(e.detail.value).toLocaleDateString()).getTime())
-                    this.queryDailyTask()
+                    this.queryDailyTask(1)
                 },
                 fail: (err) => {
-                    this.queryDailyTask()
+                    this.queryDailyTask(1)
                 }
             })
         } else {
