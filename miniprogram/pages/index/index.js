@@ -69,6 +69,10 @@ Page({
         } else {
             belongTime = new Date(new Date().toLocaleDateString()).getTime()
         }
+
+        console.log(belongTime)
+        console.log(app.globalData.openid)
+
         db.collection('dailyTask').where({
             _openid: app.globalData.openid,
             belongTime: belongTime

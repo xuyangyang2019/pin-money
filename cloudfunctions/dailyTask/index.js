@@ -16,10 +16,6 @@ exports.main = async (event, context) => {
     // const {
     //     data: taskList
     // } = await db.collection('task').get()
-    const {
-        OPENID,
-        APPID
-    } = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
 
     const {
         data: userList
@@ -31,8 +27,7 @@ exports.main = async (event, context) => {
             taskState[x] = false
         })
         let dd = {
-            // _openid: user._openid,
-            _openid: OPENID,
+            _openid: user._openid,
             userId: user._id,
             userName: user.name,
             taskState: taskState,
